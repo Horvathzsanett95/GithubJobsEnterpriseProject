@@ -24,6 +24,8 @@ namespace GithubJobsEnterpriseProject.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GithubJob>>> GetJobItems()
         {
+            GithubJobsApiCallController controller = new GithubJobsApiCallController(null);
+            IEnumerable<GithubJob> GithubJobs = controller.GetGithubJobsFromUrl();
             return await _context.JobItems.ToListAsync();
         }
 
