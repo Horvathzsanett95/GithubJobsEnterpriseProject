@@ -26,6 +26,17 @@ namespace GithubJobsEnterpriseProject.Controllers
         {
             GithubJobsApiCallController controller = new GithubJobsApiCallController(null);
             IEnumerable<GithubJob> GithubJobs = controller.GetGithubJobsFromUrl();
+
+            foreach (GithubJob job in GithubJobs)
+            {
+                _context.JobItems.AddRange(job);
+                _context.SaveChanges();
+            }
+
+            foreach (GithubJob job in _context.JobItems)
+            {
+                Console.WriteLine(job.Company);
+            }
             return await _context.JobItems.ToListAsync();
         }
 

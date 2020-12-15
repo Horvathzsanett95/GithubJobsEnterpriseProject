@@ -8,11 +8,12 @@ namespace GithubJobsEnterpriseProject.Models
 {
     public class JobContext : DbContext
     {
+        public DbSet<GithubJob> JobItems { get; set; }
         public JobContext(DbContextOptions<JobContext> options)
             : base(options)
         {
         }
 
-        public DbSet<GithubJob> JobItems { get; set; }
+        
     }
 }
