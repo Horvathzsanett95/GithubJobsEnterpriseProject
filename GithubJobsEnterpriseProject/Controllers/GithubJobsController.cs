@@ -67,6 +67,29 @@ namespace GithubJobsEnterpriseProject.Controllers
             return githubJob;
         }
 
+        [HttpGet("description={description}&location={location}")]
+        public async Task<ActionResult<IEnumerable<GithubJob>>> GetGithubJobByDescriptionAndPlace([FromRoute]string description, [FromRoute] string location)
+        {
+            Console.WriteLine(location);
+            var items = _context.JobItems;
+            if (items != null)
+            {
+                _context.RemoveRange(_context.JobItems);
+            }
+            GithubJobsApiCallController controller = new GithubJobsApiCallController();
+            IEnumerable<GithubJob> GithubJobs = controller.GetGithubJobsByParameters(description, location);
+
+            foreach (GithubJob job in GithubJobs)
+            {
+                _context.JobItems.AddRange(job);
+                _context.SaveChanges();
+            }
+            return await _context.JobItems.ToListAsync();
+        }
+
+
+
+
         // PUT: api/GithubJobs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
