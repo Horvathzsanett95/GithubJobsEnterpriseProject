@@ -56,7 +56,6 @@ namespace GithubJobsEnterpriseProject.Controllers
             {
                 var dataObjects = response.Content.ReadAsAsync<IEnumerable<GithubJob>>().Result;
                 return dataObjects;
-
             }
             else
             {
