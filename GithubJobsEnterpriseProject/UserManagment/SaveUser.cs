@@ -21,9 +21,7 @@ namespace GithubJobsEnterpriseProject.UserManagment
                 {
                     using (StreamWriter writer = new StreamWriter(isoStream))
                     {
-                        string jsonString;
-                        jsonString = JsonSerializer.Serialize(user);
-                        writer.WriteLine(jsonString);
+                        writer.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(user));
                     }
                 }
             }
@@ -33,9 +31,7 @@ namespace GithubJobsEnterpriseProject.UserManagment
                 {
                     using (StreamWriter writer = new StreamWriter(isoStream))
                     {
-                        string jsonString;
-                        jsonString = JsonSerializer.Serialize(user);
-                        writer.WriteLine(jsonString);
+                        writer.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(user));
                     }
                 }
 
