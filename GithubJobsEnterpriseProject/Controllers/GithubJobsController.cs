@@ -42,7 +42,7 @@ namespace GithubJobsEnterpriseProject.Controllers
             {
                 _context.RemoveRange(_context.JobItems);
             }
-            GithubJobsApiCallController controller = new GithubJobsApiCallController(null);
+            GithubJobsApiCallController controller = new GithubJobsApiCallController();
             IEnumerable<GithubJob> GithubJobs = controller.GetGithubJobsFromUrl();
 
             foreach (GithubJob job in GithubJobs)
