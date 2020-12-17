@@ -1,15 +1,13 @@
-import React, {useState,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
+import Login from './Login'
 
 export default function Register() {
-    const [user, getUser] = useState([]);
-
     const handleSubmit = (event) => {
-        event.preventDefault()
         
     }
 
     return (
-            <form onSubmit={handleSubmit} style={{ padding: '5%', border: '1px solid #ced4da', marginBottom: '2%'}}>
+        <form method="POST" action="/registration" onSubmit={handleSubmit} style={{ padding: '5%', border: '1px solid #ced4da', marginBottom: '2%'}}>
                 <div class="container register-form">
                     <div class="row">
                         <div class="col-md-6">
@@ -30,7 +28,7 @@ export default function Register() {
                         </div>
                     </div>
                 </div>
-                <button type="submit" style={{ border: 'none', borderRadius:'1.5rem',
+            <button type="submit" style={{ border: 'none', borderRadius:'1.5rem',
                  padding: '1%',  width: '12%', cursor: 'pointer', background: '#0062cc', color: '#fff'}}>Register</button>
             </form>
     )

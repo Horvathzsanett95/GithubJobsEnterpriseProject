@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GithubJobsEnterpriseProject.Models;
+using GithubJobsEnterpriseProject.UserManagment;
+using System.Net.Http;
+using System.Net;
 
 namespace GithubJobsEnterpriseProject.Controllers
 {
@@ -24,7 +27,20 @@ namespace GithubJobsEnterpriseProject.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GithubJob>>> GetJobItems()
         {
+            GetJobs();
             return await _context.JobItems.ToListAsync();
+        }
+
+        public void GetJobs()
+        {
+            GithubJobsApiCallController controller = new GithubJobsApiCallController(null);
+            IEnumerable<GithubJob> GithubJobs = controller.GetGithubJobsFromUrl();
+
+            foreach (GithubJob job in GithubJobs)
+            {
+                _context.JobItems.AddRange(job);
+                _context.SaveChanges();
+            }
         }
 
         // GET: api/GithubJobs/5
@@ -116,6 +132,23 @@ namespace GithubJobsEnterpriseProject.Controllers
         private bool GithubJobExists(string id)
         {
             return _context.JobItems.Any(e => e.Id == id);
+        }
+
+        [HttpPost("/registration")]
+        public ActionResult GetCredentials()
+        {
+            var username = Request.Form["Username"];
+            var email = Request.Form["Email"];
+            var password = Request.Form["Password"];
+
+            var hashedPassword = new PasswordConverter().hashPassword(password);
+            User user = new User(username, email, hashedPassword);
+            new SaveUser().ConvertUserToJson(user);
+
+
+
+            return NoContent();
+
         }
     }
 }
