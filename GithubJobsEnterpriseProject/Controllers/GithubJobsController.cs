@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GithubJobsEnterpriseProject.Models;
 using Microsoft.EntityFrameworkCore.Internal;
+using GithubJobsEnterpriseProject.UserManagment;
+using System.Net.Http;
+using System.Net;
 
 namespace GithubJobsEnterpriseProject.Controllers
 {
@@ -21,20 +24,25 @@ namespace GithubJobsEnterpriseProject.Controllers
             
             _context = context;
             
-
         }
 
         // GET: api/GithubJobs
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GithubJob>>> GetJobItems()
         {
+
+            GetJobs();
+            return await _context.JobItems.ToListAsync();
+        }
+
+        public void GetJobs()
+        {
             var items = _context.JobItems;
             if (items != null)
             {
                 _context.RemoveRange(_context.JobItems);
             }
-            
-            GithubJobsApiCallController controller = new GithubJobsApiCallController();
+            GithubJobsApiCallController controller = new GithubJobsApiCallController(null);
             IEnumerable<GithubJob> GithubJobs = controller.GetGithubJobsFromUrl();
 
             foreach (GithubJob job in GithubJobs)
@@ -42,7 +50,6 @@ namespace GithubJobsEnterpriseProject.Controllers
                 _context.JobItems.AddRange(job);
                 _context.SaveChanges();
             }
-            return await _context.JobItems.ToListAsync();
         }
 
         // GET: api/GithubJobs/5
@@ -134,6 +141,23 @@ namespace GithubJobsEnterpriseProject.Controllers
         private bool GithubJobExists(string id)
         {
             return _context.JobItems.Any(e => e.Id == id);
+        }
+
+        [HttpPost("/registration")]
+        public ActionResult GetCredentials()
+        {
+            var username = Request.Form["Username"];
+            var email = Request.Form["Email"];
+            var password = Request.Form["Password"];
+
+            var hashedPassword = new PasswordConverter().hashPassword(password);
+            User user = new User(username, email, hashedPassword);
+            new SaveUser().ConvertUserToJson(user);
+
+
+
+            return NoContent();
+
         }
     }
 }
