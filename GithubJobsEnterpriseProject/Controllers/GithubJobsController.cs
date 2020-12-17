@@ -6,36 +6,41 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GithubJobsEnterpriseProject.Models;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace GithubJobsEnterpriseProject.Controllers
 {
     [Route("api")]
     [ApiController]
-    public class GithubJobsController : ControllerBase
+    public class GithubJobsController : ControllerBase, IGitHubJobsController
     {
         private readonly JobContext _context;
 
         public GithubJobsController(JobContext context)
         {
+            
             _context = context;
+            
+
         }
 
         // GET: api/GithubJobs
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GithubJob>>> GetJobItems()
         {
-            GithubJobsApiCallController controller = new GithubJobsApiCallController(null);
+            var items = _context.JobItems;
+            if (items != null)
+            {
+                _context.RemoveRange(_context.JobItems);
+            }
+            
+            GithubJobsApiCallController controller = new GithubJobsApiCallController();
             IEnumerable<GithubJob> GithubJobs = controller.GetGithubJobsFromUrl();
 
             foreach (GithubJob job in GithubJobs)
             {
                 _context.JobItems.AddRange(job);
                 _context.SaveChanges();
-            }
-
-            foreach (GithubJob job in _context.JobItems)
-            {
-                Console.WriteLine(job.Company);
             }
             return await _context.JobItems.ToListAsync();
         }
