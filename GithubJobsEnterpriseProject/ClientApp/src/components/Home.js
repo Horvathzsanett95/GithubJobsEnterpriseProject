@@ -3,7 +3,6 @@ import axios from 'axios';
 import Job from './Job';
 
 export default function Home(props) {
-    //const [markedJob, setMarkedJob] = useState([]);
 
     const markedJob = [];
 

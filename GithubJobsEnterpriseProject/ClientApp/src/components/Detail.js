@@ -13,9 +13,11 @@ export default function Detail() {
     }, [])
 
     const getJobById = () => {
-        axios.get('https://jobs.github.com/positions/' + jobId + '.json' + "?markdown=true").then(job => {
+        axios.get('/api/' + jobId).then(job => {
+            
             setJob(job.data)
-        },)
+        })
+        console.log(job)
     }
 
     return (
