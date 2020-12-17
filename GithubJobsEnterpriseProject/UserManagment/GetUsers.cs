@@ -1,4 +1,5 @@
 ﻿using GithubJobsEnterpriseProject.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,9 +22,21 @@ namespace GithubJobsEnterpriseProject.UserManagment
                 {
                     using (StreamReader reader = new StreamReader(isoStream))
                     {
+                        List<User> users = new List<User>();
+
                         string jsonString;
                         jsonString = reader.ReadToEnd();
-                        var users = JsonSerializer.Deserialize<List<User>>(jsonString); // needs fix;
+
+                        var splittedJson = jsonString.Split("}");
+
+                        for (int i = 0; i < splittedJson.Length-1; i++)
+                        {
+                            splittedJson[i] += '}';
+                            User user = JsonConvert.DeserializeObject<User>(splittedJson[i]);
+                            users.Add(user);
+                        }
+
+                        
                         return users;
                     }
                 }

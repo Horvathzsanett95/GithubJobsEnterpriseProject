@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using GithubJobsEnterpriseProject.Models;
+using GithubJobsEnterpriseProject.UserManagment;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using GithubJobsEnterpriseProject.Models;
 using Microsoft.EntityFrameworkCore.Internal;
 using GithubJobsEnterpriseProject.UserManagment;
 using System.Net.Http;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace GithubJobsEnterpriseProject.Controllers
 {
@@ -150,14 +151,46 @@ namespace GithubJobsEnterpriseProject.Controllers
             var email = Request.Form["Email"];
             var password = Request.Form["Password"];
 
-            var hashedPassword = new PasswordConverter().hashPassword(password);
-            User user = new User(username, email, hashedPassword);
-            new SaveUser().ConvertUserToJson(user);
-
-
+            Save(username, email, password);
 
             return NoContent();
 
         }
+
+        public void Save(string username,string email, string password)
+        {
+            var hashedPassword = new PasswordConverter().hashPassword(password);
+            User user = new User(username, email, hashedPassword);
+            new SaveUser().ConvertUserToJson(user);
+        }
+
+        [HttpPost("/login")]
+        public ActionResult GetLoginCredentials()
+        {
+
+            var username = Request.Form["Username"];
+            var password = Request.Form["Password"];
+
+            Login(username, password);
+
+            return NoContent();
+
+        }
+
+        private void Login(string username,string password)
+        {
+            var loginManager = new LoginManager();
+
+            if (loginManager.getLogin(username, password))
+            {
+                Console.WriteLine("LOGED IN");
+            }
+            else
+            {
+                Console.WriteLine("INVALID");
+            }
+
+        }
+
     }
 }

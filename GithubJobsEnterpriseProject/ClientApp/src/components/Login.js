@@ -1,15 +1,13 @@
 import React, {useState,useEffect} from 'react'
 
 export default function Login() {
-    const [user, getUser] = useState([]);
 
     const handleSubmit = (event) => {
-        event.preventDefault()
         
     }
 
     return (
-            <form onSubmit={handleSubmit} style={{ padding: '5%', border: '1px solid #ced4da', marginBottom: '2%'}}>
+            <form method="POST" action="/login" onSubmit={handleSubmit} style={{ padding: '5%', border: '1px solid #ced4da', marginBottom: '2%'}}>
                 <div class="container login-form">
                     <div class="row">
                         <div class="col-md-6">
