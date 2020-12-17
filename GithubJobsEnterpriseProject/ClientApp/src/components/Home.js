@@ -26,7 +26,7 @@ export default function Home(props) {
         
 
     const getJobs = () => {
-        axios.get('https://jobs.github.com/positions.json').then(data => setJobs(data.data))
+        axios.get('/api').then(data => setJobs(data.data))
     }
 
     function showElements(job) {

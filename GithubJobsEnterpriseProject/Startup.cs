@@ -1,3 +1,4 @@
+using GithubJobsEnterpriseProject.Controllers;
 using GithubJobsEnterpriseProject.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,9 +30,14 @@ namespace GithubJobsEnterpriseProject
             {
                 configuration.RootPath = "ClientApp/build";
             });
-
             services.AddDbContext<JobContext>(opt =>
-                                              opt.UseInMemoryDatabase("JobsList"));
+                                              opt.UseInMemoryDatabase("JobsList"),
+                                              ServiceLifetime.Transient);
+            services.AddTransient<GithubJobsApiCallController>();
+            services.AddTransient<JobContext>();
+            services.AddTransient<GithubJobsController>();
+            
+
 
 
         }

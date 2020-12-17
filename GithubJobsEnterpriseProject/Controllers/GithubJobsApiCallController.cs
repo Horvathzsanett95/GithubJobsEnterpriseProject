@@ -12,9 +12,9 @@ namespace GithubJobsEnterpriseProject.Controllers
     {
         private const string _url = "https://jobs.github.com/positions.json";
         private string _urlParameters;
-        public GithubJobsApiCallController(string parameter)
+        public GithubJobsApiCallController()
         {
-            _urlParameters = parameter;
+            
         }
 
         public IEnumerable<GithubJob> GetGithubJobsFromUrl ()

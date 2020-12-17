@@ -5,6 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GithubJobsEnterpriseProject.Models;
+using Microsoft.EntityFrameworkCore.Internal;
+using GithubJobsEnterpriseProject.UserManagment;
+using System.Net.Http;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -12,26 +16,34 @@ namespace GithubJobsEnterpriseProject.Controllers
 {
     [Route("api")]
     [ApiController]
-    public class GithubJobsController : ControllerBase
+    public class GithubJobsController : ControllerBase, IGitHubJobsController
     {
         private readonly JobContext _context;
 
         public GithubJobsController(JobContext context)
         {
+            
             _context = context;
+            
         }
 
         // GET: api/GithubJobs
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GithubJob>>> GetJobItems()
         {
+
             GetJobs();
             return await _context.JobItems.ToListAsync();
         }
 
         public void GetJobs()
         {
-            GithubJobsApiCallController controller = new GithubJobsApiCallController(null);
+            var items = _context.JobItems;
+            if (items != null)
+            {
+                _context.RemoveRange(_context.JobItems);
+            }
+            GithubJobsApiCallController controller = new GithubJobsApiCallController();
             IEnumerable<GithubJob> GithubJobs = controller.GetGithubJobsFromUrl();
 
             foreach (GithubJob job in GithubJobs)
