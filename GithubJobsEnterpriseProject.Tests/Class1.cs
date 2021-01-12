@@ -1,4 +1,5 @@
 ﻿
+using GithubJobsEnterpriseProject.UserManagment;
 using NUnit.Framework;
 
 namespace GithubJobsEnterpriseProject.Tests
@@ -9,7 +10,8 @@ namespace GithubJobsEnterpriseProject.Tests
         [Test]
         public void Test()
         {
-            Assert.AreEqual(5, 5);
+            GetUsers getuser = new GetUsers();
+
         }
     }
 }
