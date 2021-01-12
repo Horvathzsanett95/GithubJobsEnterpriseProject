@@ -198,20 +198,9 @@ namespace GithubJobsEnterpriseProject.Controllers
 
         private void Login(string username, string password)
         {
-            var convertedPassword = new PasswordHandlerService(password).ConvertPasswordToByteArray();
             var users = new JsonHandlerService().DeconvertUsersJson();
-            var loginService = new LoginService(username, password);
-
-
-            if (loginService.IsUserFound(convertedPassword))
-            {
-                Console.WriteLine("LOGED IN");
-            }
-            else
-            {
-                Console.WriteLine("INVALID");
-            }
-
+            var loginService = new LoginService(username, password, users);
+            loginService.Login();
         }
 
     }

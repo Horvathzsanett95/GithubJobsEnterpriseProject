@@ -26,12 +26,5 @@ namespace GithubJobsEnterpriseProject.Services
             string hashedPassword = Convert.ToBase64String(hashBytes);
             return hashedPassword;
         }
-
-        public Rfc2898DeriveBytes ConvertPasswordToByteArray()
-        {
-            byte[] salt = new byte[16];
-            var convertedPassword = new Rfc2898DeriveBytes(_password, salt, 100000);
-            return convertedPassword;
-        }
     }
 }

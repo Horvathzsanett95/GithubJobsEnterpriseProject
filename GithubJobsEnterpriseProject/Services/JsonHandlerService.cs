@@ -9,15 +9,15 @@ namespace GithubJobsEnterpriseProject.Services
 {
     public class JsonHandlerService
     {
-
-        IsolatedStorageFile isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null);
+        private const string _JSONPATH = "users.json";
+        private IsolatedStorageFile isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null);
 
         public List<User> DeconvertUsersJson()
         {
-            if (isoStore.FileExists("users.json"))
+            if (isoStore.FileExists(_JSONPATH))
             {
                 Console.WriteLine("The file already exists!");
-                using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("users.json", FileMode.Open, isoStore))
+                using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(_JSONPATH, FileMode.Open, isoStore))
                 {
                     using (StreamReader reader = new StreamReader(isoStream))
                     {
@@ -45,9 +45,9 @@ namespace GithubJobsEnterpriseProject.Services
 
         public void ConvertUserToJson(User user)
         {
-            if (isoStore.FileExists("users.json"))
+            if (isoStore.FileExists(_JSONPATH))
             {
-                using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("users.json", FileMode.Append, isoStore))
+                using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(_JSONPATH, FileMode.Append, isoStore))
                 {
                     using (StreamWriter writer = new StreamWriter(isoStream))
                     {
@@ -55,9 +55,9 @@ namespace GithubJobsEnterpriseProject.Services
                     }
                 }
             }
-            else if (!isoStore.FileExists("users.json"))
+            else if (!isoStore.FileExists(_JSONPATH))
             {
-                using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("users.json", FileMode.CreateNew, isoStore))
+                using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(_JSONPATH, FileMode.CreateNew, isoStore))
                 {
                     using (StreamWriter writer = new StreamWriter(isoStream))
                     {
