@@ -10,13 +10,19 @@ namespace GithubJobsEnterpriseProject.Controllers
 {
     public class JobApiService : IJobApiService
     {
-        private const string _url = "https://jobs.github.com/positions.json";
+        IAppsettingsController _controller;
+        public JobApiService(IAppsettingsController controller)
+        {
+            _controller = controller;
+        }
+
         private string _urlParameters;
 
         public IEnumerable<GithubJob> GetGithubJobsFromUrl()
         {
+            string url = _controller.GetLink().url;
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(_url);
+            client.BaseAddress = new Uri(url);
 
             client.DefaultRequestHeaders.Accept.Add(
             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -40,11 +46,10 @@ namespace GithubJobsEnterpriseProject.Controllers
 
         public IEnumerable<GithubJob> GetGithubJobsByParameters(string descriptionParameter, string locationParameter)
         {
-            string _newUrl = "https://jobs.github.com/";
+            string url = _controller.GetLink().plainUrl;
             _urlParameters = "positions.json?description=" + descriptionParameter + "&location=" + locationParameter;
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(_newUrl);
-            Console.WriteLine(_newUrl + _urlParameters);
+            client.BaseAddress = new Uri(url);
             client.DefaultRequestHeaders.Accept.Add(
             new MediaTypeWithQualityHeaderValue("application/json"));
             HttpResponseMessage response = client.GetAsync(_urlParameters).Result;

@@ -8,9 +8,14 @@ using System.Threading.Tasks;
 
 namespace GithubJobsEnterpriseProject.Controllers
 {
-    public class AppsettingsController : ControllerBase
+    public class AppsettingsController : ControllerBase, IAppsettingsController
     {
         private readonly IConfiguration _config;
+
+        public AppsettingsController(IConfiguration iconfig)
+        {
+            _config = iconfig;
+        }
 
         public Appsettings GetLink()
         {
