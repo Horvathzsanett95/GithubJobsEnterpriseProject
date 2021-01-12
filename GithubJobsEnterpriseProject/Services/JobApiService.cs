@@ -23,58 +23,54 @@ namespace GithubJobsEnterpriseProject.Controllers
         {
             Appsettings appsettings = new Appsettings();
             appsettings.Url = _iconfig.GetValue<string>("GithubJobs:Url");
-            appsettings.BaseUrl = _iconfig.GetValue<string>("GithubJobs:PlainUrl");
+            appsettings.BaseUrl = _iconfig.GetValue<string>("GithubJobs:BaseUrl");
             return appsettings;
         }
 
         public IEnumerable<GithubJob> GetGithubJobsFromUrl()
         {
             string url = GetLink().Url;
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(url);
-
-            client.DefaultRequestHeaders.Accept.Add(
-            new MediaTypeWithQualityHeaderValue("application/json"));
-            HttpResponseMessage response = client.GetAsync(_urlParameters).Result;
-            if (response.IsSuccessStatusCode)
+            using (var client = new HttpClient())
             {
-                var dataObjects = response.Content.ReadAsAsync<IEnumerable<GithubJob>>().Result;
-                return dataObjects;
+                client.BaseAddress = new Uri(url);
 
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage response = client.GetAsync(_urlParameters).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    var dataObjects = response.Content.ReadAsAsync<IEnumerable<GithubJob>>().Result;
+                    return dataObjects;
+                }
+                else
+                {
+                    Console.WriteLine($"{response.StatusCode} ({response.ReasonPhrase})");
+                }
+                return null;
             }
-            else
-            {
-                Console.WriteLine($"{response.StatusCode} ({response.ReasonPhrase})");
-
-            }
-            client.Dispose();
-            return null;
-
-
         }
 
         public IEnumerable<GithubJob> GetGithubJobsByParameters(string descriptionParameter, string locationParameter)
         {
             string url = GetLink().BaseUrl;
             _urlParameters = "positions.json?description=" + descriptionParameter + "&location=" + locationParameter;
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(url);
-            client.DefaultRequestHeaders.Accept.Add(
-            new MediaTypeWithQualityHeaderValue("application/json"));
-            HttpResponseMessage response = client.GetAsync(_urlParameters).Result;
-            if (response.IsSuccessStatusCode)
+            using (var client = new HttpClient())
             {
-                var dataObjects = response.Content.ReadAsAsync<IEnumerable<GithubJob>>().Result;
-                return dataObjects;
+                client.BaseAddress = new Uri(url);
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage response = client.GetAsync(_urlParameters).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    var dataObjects = response.Content.ReadAsAsync<IEnumerable<GithubJob>>().Result;
+                    return dataObjects;
+                }
+                else
+                {
+                    Console.WriteLine($"{response.StatusCode} ({response.ReasonPhrase})");
+                }
+                return null;
             }
-            else
-            {
-                Console.WriteLine($"{response.StatusCode} ({response.ReasonPhrase})");
-
-            }
-            client.Dispose();
-            return null;
-
         }
     }
 }
