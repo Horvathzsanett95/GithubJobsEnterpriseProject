@@ -19,19 +19,6 @@ import {
 } from "react-router-dom";
 
 function App() {
-  // let [markedJobs, setMarkedJobs] = useState([]);
-
-  // function handleChange(markedJob) {
-  //   console.log("I am working app")
-  //   if (markedJobs.length === 0) {
-  //     console.log("null")
-  //     markedJobs = markedJob
-  //   } else {
-  //     setMarkedJobs(jobs => [...jobs, markedJob])
-  //   }
-    
-  //   console.log(markedJobs)
-  // }
 
   let markedJobs = [];
 
@@ -45,6 +32,7 @@ function App() {
     display: "inline-block",
     margin: "5px",
     padding: "3px",
+    borderRadius: "15px",
     textDecoration: 'none',
     backgroundColor: "#78c3ff",
     width: "200px",
@@ -60,14 +48,14 @@ function App() {
       
       <Router>
       <div>
-        <nav>
-          <ul>
-            <li style={NavElementStyle}>
+            <nav>
+            <ul>
+            <li  style={NavElementStyle}>
               <img src={githubLogo} className="Git-logo" alt="logo" />
               <Link to="/" style={{color:'black'}}>Home</Link>
               <img src={githubLogo} className="Git-logo" alt="logo" />
                 </li>
-                <li style={NavElementStyle}>
+             <li style={NavElementStyle}>
               <img src={githubLogo} className="Git-logo" alt="logo" />
               <Link to="/marked" style={{color:'black'}}>Marked jobs</Link>
               <img src={githubLogo} className="Git-logo" alt="logo" />
