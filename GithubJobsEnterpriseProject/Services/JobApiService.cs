@@ -44,7 +44,7 @@ namespace GithubJobsEnterpriseProject.Controllers
             }
             else
             {
-                Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                Console.WriteLine($"{response.StatusCode} ({response.ReasonPhrase})");
 
             }
             client.Dispose();
@@ -69,7 +69,7 @@ namespace GithubJobsEnterpriseProject.Controllers
             }
             else
             {
-                Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                Console.WriteLine($"{response.StatusCode} ({response.ReasonPhrase})");
 
             }
             client.Dispose();

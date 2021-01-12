@@ -34,8 +34,6 @@ namespace GithubJobsEnterpriseProject
                                               opt.UseInMemoryDatabase("JobsList"),
                                               ServiceLifetime.Transient);
             services.AddTransient<IJobApiService, JobApiService>();
-            services.AddTransient<IAppsettingsController, AppsettingsController>();
-            services.AddTransient<IGitHubJobsController, GithubJobsController>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
