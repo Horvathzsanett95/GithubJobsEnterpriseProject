@@ -1,18 +1,17 @@
-﻿using GithubJobsEnterpriseProject.Models;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
-using System.Linq;
-using System.Text.Json;
-using System.Threading.Tasks;
+using GithubJobsEnterpriseProject.Models;
+using Newtonsoft.Json;
 
-namespace GithubJobsEnterpriseProject.UserManagment
+namespace GithubJobsEnterpriseProject.Services
 {
-    public class GetUsers
+    public class JsonHandlerService
     {
+
         IsolatedStorageFile isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null);
+
         public List<User> DeconvertUsersJson()
         {
             if (isoStore.FileExists("users.json"))
@@ -29,19 +28,45 @@ namespace GithubJobsEnterpriseProject.UserManagment
 
                         var splittedJson = jsonString.Split("}");
 
-                        for (int i = 0; i < splittedJson.Length-1; i++)
+                        for (int i = 0; i < splittedJson.Length - 1; i++)
                         {
                             splittedJson[i] += '}';
                             User user = JsonConvert.DeserializeObject<User>(splittedJson[i]);
                             users.Add(user);
                         }
 
-                        
+
                         return users;
                     }
                 }
             }
             return null;
         }
+
+        public void ConvertUserToJson(User user)
+        {
+            if (isoStore.FileExists("users.json"))
+            {
+                using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("users.json", FileMode.Append, isoStore))
+                {
+                    using (StreamWriter writer = new StreamWriter(isoStream))
+                    {
+                        writer.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(user));
+                    }
+                }
+            }
+            else if (!isoStore.FileExists("users.json"))
+            {
+                using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("users.json", FileMode.CreateNew, isoStore))
+                {
+                    using (StreamWriter writer = new StreamWriter(isoStream))
+                    {
+                        writer.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(user));
+                    }
+                }
+
+            }
+        }
+
     }
 }
