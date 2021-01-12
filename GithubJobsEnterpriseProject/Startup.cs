@@ -33,8 +33,7 @@ namespace GithubJobsEnterpriseProject
             services.AddDbContext<JobContext>(opt =>
                                               opt.UseInMemoryDatabase("JobsList"),
                                               ServiceLifetime.Transient);
-            services.AddTransient<GithubJobsApiCallController>();
-            services.AddTransient<JobContext>();
+            services.AddTransient<IJobApiService, JobApiService>();
             services.AddTransient<GithubJobsController>();
             
 

@@ -19,11 +19,13 @@ namespace GithubJobsEnterpriseProject.Controllers
     public class GithubJobsController : ControllerBase, IGitHubJobsController
     {
         private readonly JobContext _context;
-
-        public GithubJobsController(JobContext context)
+        private readonly IJobApiService _apiService;
+             
+        public GithubJobsController(JobContext context, IJobApiService apiService)
         {
             
             _context = context;
+            _apiService = apiService;
             
         }
 
@@ -43,8 +45,7 @@ namespace GithubJobsEnterpriseProject.Controllers
             {
                 _context.RemoveRange(_context.JobItems);
             }
-            GithubJobsApiCallController controller = new GithubJobsApiCallController();
-            IEnumerable<GithubJob> GithubJobs = controller.GetGithubJobsFromUrl();
+            IEnumerable<GithubJob> GithubJobs = _apiService.GetGithubJobsFromUrl();
 
             foreach (GithubJob job in GithubJobs)
             {
@@ -76,9 +77,7 @@ namespace GithubJobsEnterpriseProject.Controllers
             {
                 _context.RemoveRange(_context.JobItems);
             }
-
-            GithubJobsApiCallController controller = new GithubJobsApiCallController();
-            IEnumerable<GithubJob> GithubJobs = controller.GetGithubJobsByParameters(description, location);
+            IEnumerable<GithubJob> GithubJobs = _apiService.GetGithubJobsByParameters(description, location);
 
             foreach (GithubJob job in GithubJobs)
             {
@@ -217,4 +216,6 @@ namespace GithubJobsEnterpriseProject.Controllers
         }
 
     }
+
+   
 }

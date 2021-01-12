@@ -8,14 +8,10 @@ using System.Threading.Tasks;
 
 namespace GithubJobsEnterpriseProject.Controllers
 {
-    public class GithubJobsApiCallController
+    public class JobApiService : IJobApiService
     {
         private const string _url = "https://jobs.github.com/positions.json";
         private string _urlParameters;
-        public GithubJobsApiCallController()
-        {
-
-        }
 
         public IEnumerable<GithubJob> GetGithubJobsFromUrl()
         {
@@ -27,7 +23,7 @@ namespace GithubJobsEnterpriseProject.Controllers
             HttpResponseMessage response = client.GetAsync(_urlParameters).Result;
             if (response.IsSuccessStatusCode)
             {
-                var dataObjects = response.Content.ReadAsAsync<IEnumerable<GithubJob>>().Result;  //Make sure to add a reference to System.Net.Http.Formatting.dll
+                var dataObjects = response.Content.ReadAsAsync<IEnumerable<GithubJob>>().Result;
                 return dataObjects;
 
             }
