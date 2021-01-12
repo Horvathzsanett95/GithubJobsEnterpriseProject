@@ -7,8 +7,8 @@ namespace GithubJobsEnterpriseProject.Models
 {
     public class Appsettings
     {
-        public string url { get; set; }
+        public string Url { get; set; }
 
-        public string plainUrl { get; set; }
+        public string BaseUrl { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using GithubJobsEnterpriseProject.Models;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,17 +11,25 @@ namespace GithubJobsEnterpriseProject.Controllers
 {
     public class JobApiService : IJobApiService
     {
-        IAppsettingsController _controller;
-        public JobApiService(IAppsettingsController controller)
+        IConfiguration _iconfig;
+        public JobApiService(IConfiguration iconfig)
         {
-            _controller = controller;
+            _iconfig = iconfig;
         }
 
         private string _urlParameters;
 
+        public Appsettings GetLink()
+        {
+            Appsettings appsettings = new Appsettings();
+            appsettings.Url = _iconfig.GetValue<string>("GithubJobs:Url");
+            appsettings.BaseUrl = _iconfig.GetValue<string>("GithubJobs:PlainUrl");
+            return appsettings;
+        }
+
         public IEnumerable<GithubJob> GetGithubJobsFromUrl()
         {
-            string url = _controller.GetLink().url;
+            string url = GetLink().Url;
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(url);
 
@@ -46,7 +55,7 @@ namespace GithubJobsEnterpriseProject.Controllers
 
         public IEnumerable<GithubJob> GetGithubJobsByParameters(string descriptionParameter, string locationParameter)
         {
-            string url = _controller.GetLink().plainUrl;
+            string url = GetLink().BaseUrl;
             _urlParameters = "positions.json?description=" + descriptionParameter + "&location=" + locationParameter;
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(url);
