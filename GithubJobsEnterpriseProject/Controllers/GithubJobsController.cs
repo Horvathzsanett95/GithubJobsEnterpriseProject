@@ -1,15 +1,10 @@
 ﻿using GithubJobsEnterpriseProject.Models;
-using GithubJobsEnterpriseProject.UserManagment;
+using GithubJobsEnterpriseProject.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using GithubJobsEnterpriseProject.Models;
-using Microsoft.EntityFrameworkCore.Internal;
-using GithubJobsEnterpriseProject.UserManagment;
-using System.Net.Http;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace GithubJobsEnterpriseProject.Controllers
@@ -22,9 +17,9 @@ namespace GithubJobsEnterpriseProject.Controllers
 
         public GithubJobsController(JobContext context)
         {
-            
+
             _context = context;
-            
+
         }
 
         // GET: api/GithubJobs
@@ -68,7 +63,7 @@ namespace GithubJobsEnterpriseProject.Controllers
         }
 
         [HttpGet("description={description}&location={location}")]
-        public async Task<ActionResult<IEnumerable<GithubJob>>> GetGithubJobByDescriptionAndPlace([FromRoute]string description, 
+        public async Task<ActionResult<IEnumerable<GithubJob>>> GetGithubJobByDescriptionAndPlace([FromRoute] string description,
                                                                                                   [FromRoute] string location)
         {
             var items = _context.JobItems;
@@ -181,11 +176,11 @@ namespace GithubJobsEnterpriseProject.Controllers
 
         }
 
-        public void Save(string username,string email, string password)
+        public void Save(string username, string email, string password)
         {
-            var hashedPassword = new PasswordConverter().hashPassword(password);
+            var hashedPassword = new PasswordHandlerService(password).HashUserGivenPassword();
             User user = new User(username, email, hashedPassword);
-            new SaveUser().ConvertUserToJson(user);
+            new JsonHandlerService().ConvertUserToJson(user);
         }
 
         [HttpPost("/login")]
@@ -201,11 +196,14 @@ namespace GithubJobsEnterpriseProject.Controllers
 
         }
 
-        private void Login(string username,string password)
+        private void Login(string username, string password)
         {
-            var loginManager = new LoginManager();
+            var convertedPassword = new PasswordHandlerService(password).ConvertPasswordToByteArray();
+            var users = new JsonHandlerService().DeconvertUsersJson();
+            var loginService = new LoginService(username, password);
 
-            if (loginManager.getLogin(username, password))
+
+            if (loginService.IsUserFound(convertedPassword))
             {
                 Console.WriteLine("LOGED IN");
             }
