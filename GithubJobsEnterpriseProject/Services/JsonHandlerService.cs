@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace GithubJobsEnterpriseProject.Services
 {
-    public class JsonHandlerService
+    public class JsonHandlerService : IJsonHandlerService
     {
         private const string _JSONPATH = "users.json";
         private IsolatedStorageFile isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null);
@@ -40,10 +40,13 @@ namespace GithubJobsEnterpriseProject.Services
                     }
                 }
             }
-            return null;
+            else
+            {
+                throw new FileNotFoundException();
+            }
         }
 
-        public void ConvertUserToJson(User user)
+        public void Save(User user)
         {
             if (isoStore.FileExists(_JSONPATH))
             {
@@ -65,6 +68,10 @@ namespace GithubJobsEnterpriseProject.Services
                     }
                 }
 
+            }
+            else
+            {
+                throw new FileNotFoundException();
             }
         }
 
