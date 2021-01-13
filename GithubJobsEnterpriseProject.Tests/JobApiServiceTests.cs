@@ -30,5 +30,14 @@ namespace GithubJobsEnterpriseProject.Tests
             Assert.That(jobApiService.GetLink().Url, Is.EqualTo("https://jobs.github.com/positions.json"));
             Assert.That(jobApiService.GetLink().BaseUrl, Is.EqualTo("https://jobs.github.com/"));
         }
+
+        [Test]
+        public void GetGithubJobsFromUrlWrongUrlTest()
+        {
+            var config = Substitute.For<IConfiguration>();
+            config.GetValue<string>("GithubJobs:Url").Returns("https://badtest.com/positions.json");
+            JobApiService jobApiService = new JobApiService(config);
+            Assert.Throws<NullReferenceException>(() => jobApiService.GetGithubJobsFromUrl());
+        }
     }
 }

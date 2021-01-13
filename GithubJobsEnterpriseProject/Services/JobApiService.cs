@@ -16,6 +16,7 @@ namespace GithubJobsEnterpriseProject.Controllers
         public JobApiService(IConfiguration iconfig)
         {
             _iconfig = iconfig;
+            GetLink();
         }
 
         private string _urlParameters;
@@ -38,15 +39,16 @@ namespace GithubJobsEnterpriseProject.Controllers
                 client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
                 HttpResponseMessage response = client.GetAsync(_urlParameters).Result;
-                if (response.IsSuccessStatusCode)
+                try
                 {
-                    var dataObjects = response.Content.ReadAsAsync<IEnumerable<GithubJob>>().Result;
-                    return dataObjects;
+                     var dataObjects = response.Content.ReadAsAsync<IEnumerable<GithubJob>>().Result;
+                     return dataObjects; 
                 }
-                else
+                catch (NullReferenceException)
                 {
                     Console.WriteLine($"{response.StatusCode} ({response.ReasonPhrase})");
                 }
+                
                 return null;
             }
         }
