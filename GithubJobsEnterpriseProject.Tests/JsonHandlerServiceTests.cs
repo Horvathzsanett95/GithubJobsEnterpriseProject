@@ -1,13 +1,9 @@
 ﻿using GithubJobsEnterpriseProject.Models;
 using GithubJobsEnterpriseProject.Services;
-using NSubstitute;
 using NUnit.Framework;
-using System;
 using System.IO;
-using System.Collections.Generic;
+using System.IO.IsolatedStorage;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GithubJobsEnterpriseProject.Tests
 {
@@ -40,13 +36,23 @@ namespace GithubJobsEnterpriseProject.Tests
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void TestIfFileNotFoundExeptionIsThrown()
+        public void TestIfFileIsFound()
         {
-            var jsonHandlerServiceSubstitude = Substitute.For<IJsonHandlerService>();
-            jsonHandlerServiceSubstitude.DeconvertUsersJson().Returns(x => { throw new FileNotFoundException(); });
-
+            IsolatedStorageFile isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null);
+            try
+            {
+                using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("users.json", FileMode.Open, isoStore))
+                {
+                    Assert.Pass();
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                Assert.Fail();
+            }
         }
+
+
 
     }
 }
