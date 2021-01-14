@@ -18,7 +18,7 @@ namespace GithubJobsEnterpriseProject.Services
             this._userList = users;
         }
 
-        public void Login()
+        public bool Login()
         {
             string savedPasswordHash = "";
 
@@ -42,13 +42,14 @@ namespace GithubJobsEnterpriseProject.Services
             {
                 if (hashBytes[i + 16] != hash[i])
                 {
-                    Console.WriteLine("INVALID CREDENTIALS");
+                    return false;
                 }
                 else
                 {
-                    Console.WriteLine("LOGGED IN");
+                    return true;
                 }
             }
+            return false;
 
         }
     }

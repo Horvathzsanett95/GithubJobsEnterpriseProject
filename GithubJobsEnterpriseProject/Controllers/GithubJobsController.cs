@@ -44,6 +44,7 @@ namespace GithubJobsEnterpriseProject.Controllers
             foreach (GithubJob job in GithubJobs)
             {
                 _context.JobItems.AddRange(job);
+                
                 _context.SaveChanges();
             }
         }
@@ -178,7 +179,7 @@ namespace GithubJobsEnterpriseProject.Controllers
         {
             var hashedPassword = new PasswordHandlerService(password).HashUserGivenPassword();
             User user = new User(username, email, hashedPassword);
-            new JsonHandlerService().ConvertUserToJson(user);
+            new JsonHandlerService().Save(user);
         }
 
         [HttpPost("/login")]
