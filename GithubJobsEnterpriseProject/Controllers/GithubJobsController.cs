@@ -44,6 +44,7 @@ namespace GithubJobsEnterpriseProject.Controllers
             foreach (GithubJob job in GithubJobs)
             {
                 _context.JobItems.AddRange(job);
+                
                 _context.SaveChanges();
             }
         }

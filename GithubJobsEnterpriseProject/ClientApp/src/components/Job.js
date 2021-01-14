@@ -12,13 +12,24 @@ export default function Job(props) {
         setDefaultPicture();
     }, [])
 
+
+
     const setDefaultPicture = () => {
-        setShowedPicture(EmptyHeart)
+        let pictureToSet = (props.job.is_marked) ? FullHeart : EmptyHeart
+        setShowedPicture(pictureToSet)
         }
 
     const handleClickJob = (e) => {
-        setMarkedJob(jobs => [...jobs, props.job])
-        setShowedPicture(FullHeart)
+        let pictureToSet = (props.job.is_marked) ? EmptyHeart : FullHeart
+        console.log(props.job.is_marked)
+        props.job.is_marked = (props.job.is_marked) ? false : true
+        console.log(props.job.is_marked)
+        setShowedPicture(pictureToSet)
+        if (props.job.is_marked == true) {
+            setMarkedJob(jobs => [...jobs, props.job])
+        }
+        
+
     }
 
     const cardStyling = {

@@ -26,10 +26,19 @@ export default function Home(props) {
 
     const getJobs = () => {
         axios.get('/api').then(data => setJobs(data.data))
+        
+        
     }
 
+    const fillMarkedData = () => {
+        console.log("working")
+        jobs.map((job) => console.log(job.job.location))
+    }
+
+
     function showElements(job) {
-        return (<Job job={job} onChange={handleSubmit}/>)
+        
+        return (<Job job={job} onChange={handleSubmit} loadt={fillMarkedData }/>)
     }
 
     return jobs.map(showElements)

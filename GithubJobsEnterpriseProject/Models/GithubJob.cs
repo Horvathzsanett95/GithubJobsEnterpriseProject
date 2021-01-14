@@ -18,5 +18,6 @@ namespace GithubJobsEnterpriseProject.Models
         public string Description { get; set; }
         public string HowToApply { get; set; }
         public string CompanyLogo { get; set; }
+        public bool IsMarked { get; set; }
     }
 }

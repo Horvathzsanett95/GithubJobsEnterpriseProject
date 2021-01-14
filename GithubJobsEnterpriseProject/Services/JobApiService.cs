@@ -40,6 +40,7 @@ namespace GithubJobsEnterpriseProject.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var dataObjects = response.Content.ReadAsAsync<IEnumerable<GithubJob>>().Result;
+                    
                     return dataObjects;
                 }
                 else
