@@ -8,31 +8,20 @@ using Newtonsoft.Json;
 
 namespace GithubJobsEnterpriseProject.Services
 {
-    public class JsonHandlerService : IJsonHandlerService
+    public class JsonHandlerService
     {
-        private string _path;
+        private const string _JSONPATH = "users.json";
         private IsolatedStorageFile isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null);
 
-        IConfiguration _iconfig;
-        public JsonHandlerService(IConfiguration iconfig)
-        {
-            _iconfig = iconfig;
-        }
-
-        public string GetFilename()
-        {
-            return _iconfig.GetValue<string>("UsersPath:Filename");
-        }
 
         public List<User> DeconvertUsersJson()
         {
 
-            _path = GetFilename();
 
-            if (isoStore.FileExists(_path))
+            if (isoStore.FileExists(_JSONPATH))
             {
                 Console.WriteLine("The file already exists!");
-                using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(_path, FileMode.Open, isoStore))
+                using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(_JSONPATH, FileMode.Open, isoStore))
                 {
                     using (StreamReader reader = new StreamReader(isoStream))
                     {
@@ -64,11 +53,9 @@ namespace GithubJobsEnterpriseProject.Services
         public void Save(User user)
         {
 
-            _path = GetFilename();
-
-            if (isoStore.FileExists(_path))
+            if (isoStore.FileExists(_JSONPATH))
             {
-                using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(_path, FileMode.Append, isoStore))
+                using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(_JSONPATH, FileMode.Append, isoStore))
                 {
                     using (StreamWriter writer = new StreamWriter(isoStream))
                     {
@@ -76,9 +63,9 @@ namespace GithubJobsEnterpriseProject.Services
                     }
                 }
             }
-            else if (!isoStore.FileExists(_path))
+            else if (!isoStore.FileExists(_JSONPATH))
             {
-                using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(_path, FileMode.CreateNew, isoStore))
+                using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(_JSONPATH, FileMode.CreateNew, isoStore))
                 {
                     using (StreamWriter writer = new StreamWriter(isoStream))
                     {

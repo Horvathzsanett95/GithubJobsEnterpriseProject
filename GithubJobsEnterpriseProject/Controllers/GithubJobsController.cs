@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace GithubJobsEnterpriseProject.Controllers
@@ -170,7 +171,7 @@ namespace GithubJobsEnterpriseProject.Controllers
 
             Save(username, email, password);
 
-            return NoContent();
+            return Redirect("/");
 
         }
 
@@ -179,6 +180,7 @@ namespace GithubJobsEnterpriseProject.Controllers
             var hashedPassword = new PasswordHandlerService(password).HashUserGivenPassword();
             User user = new User(username, email, hashedPassword);
             new JsonHandlerService().Save(user);
+
         }
 
         [HttpPost("/login")]
@@ -198,7 +200,9 @@ namespace GithubJobsEnterpriseProject.Controllers
         {
             var users = new JsonHandlerService().DeconvertUsersJson();
             var loginService = new LoginService(username, password, users);
-            loginService.Login();
+            if (loginService.Login()) { 
+
+            }
         }
 
     }
