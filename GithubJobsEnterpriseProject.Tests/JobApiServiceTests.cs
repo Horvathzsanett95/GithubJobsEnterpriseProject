@@ -9,6 +9,7 @@ using NSubstitute;
 using NUnit.Framework;
 using GithubJobsEnterpriseProject.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
 
 namespace GithubJobsEnterpriseProject.Tests
 {
@@ -18,6 +19,14 @@ namespace GithubJobsEnterpriseProject.Tests
         {
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
+                .Build();
+            return config;
+        }
+
+        public static IConfiguration InitConfigurationBadData()
+        {
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("badpath.json")
                 .Build();
             return config;
         }
@@ -32,12 +41,22 @@ namespace GithubJobsEnterpriseProject.Tests
         }
 
         [Test]
-        public void GetGithubJobsFromUrlWrongUrlTest()
+        public void GetGithubJobsFromUrlWrongUrlreturnsNullTest()
         {
             var config = Substitute.For<IConfiguration>();
             config.GetValue<string>("GithubJobs:Url").Returns("https://badtest.com/positions.json");
             JobApiService jobApiService = new JobApiService(config);
-            Assert.Throws<NullReferenceException>(() => jobApiService.GetGithubJobsFromUrl());
+            Assert.Throws<UriFormatException> (() => jobApiService.GetGithubJobsFromUrl());
+        }
+
+        [Test]
+        public void GetGithubJobsFromUrlWithParametersWrongUrlReturnValueTest()
+        {
+            var config = InitConfiguration();
+            string location = "Budapest";
+            string description = "java";
+            JobApiService jobApiService = new JobApiService(config);
+            Assert.IsNotNull(jobApiService.GetGithubJobsByParameters(description, location));
         }
     }
 }

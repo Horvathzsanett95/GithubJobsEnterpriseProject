@@ -39,16 +39,17 @@ namespace GithubJobsEnterpriseProject.Controllers
                 client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
                 HttpResponseMessage response = client.GetAsync(_urlParameters).Result;
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                     var dataObjects = response.Content.ReadAsAsync<IEnumerable<GithubJob>>().Result;
-                     return dataObjects; 
+                    var dataObjects = response.Content.ReadAsAsync<IEnumerable<GithubJob>>().Result;
+
+                    return dataObjects;
                 }
-                catch (NullReferenceException)
+                else
                 {
                     Console.WriteLine($"{response.StatusCode} ({response.ReasonPhrase})");
                 }
-                
+
                 return null;
             }
         }
@@ -66,13 +67,16 @@ namespace GithubJobsEnterpriseProject.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var dataObjects = response.Content.ReadAsAsync<IEnumerable<GithubJob>>().Result;
+
                     return dataObjects;
                 }
                 else
                 {
                     Console.WriteLine($"{response.StatusCode} ({response.ReasonPhrase})");
                 }
+
                 return null;
+
             }
         }
     }
