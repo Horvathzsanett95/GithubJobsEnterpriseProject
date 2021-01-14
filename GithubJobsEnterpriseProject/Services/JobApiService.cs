@@ -12,16 +12,18 @@ namespace GithubJobsEnterpriseProject.Controllers
     public class JobApiService : IJobApiService
     {
         IConfiguration _iconfig;
+        Appsettings appsettings;
         public JobApiService(IConfiguration iconfig)
         {
             _iconfig = iconfig;
+            GetLink();
         }
 
         private string _urlParameters;
 
         public Appsettings GetLink()
         {
-            Appsettings appsettings = new Appsettings();
+            appsettings = new Appsettings();
             appsettings.Url = _iconfig.GetValue<string>("GithubJobs:Url");
             appsettings.BaseUrl = _iconfig.GetValue<string>("GithubJobs:BaseUrl");
             return appsettings;
@@ -29,7 +31,7 @@ namespace GithubJobsEnterpriseProject.Controllers
 
         public IEnumerable<GithubJob> GetGithubJobsFromUrl()
         {
-            string url = GetLink().Url;
+            string url = appsettings.Url;
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(url);
@@ -40,20 +42,20 @@ namespace GithubJobsEnterpriseProject.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var dataObjects = response.Content.ReadAsAsync<IEnumerable<GithubJob>>().Result;
-                    
                     return dataObjects;
                 }
                 else
                 {
                     Console.WriteLine($"{response.StatusCode} ({response.ReasonPhrase})");
                 }
+
                 return null;
             }
         }
 
         public IEnumerable<GithubJob> GetGithubJobsByParameters(string descriptionParameter, string locationParameter)
         {
-            string url = GetLink().BaseUrl;
+            string url = appsettings.BaseUrl;
             _urlParameters = "positions.json?description=" + descriptionParameter + "&location=" + locationParameter;
             using (var client = new HttpClient())
             {
@@ -64,13 +66,16 @@ namespace GithubJobsEnterpriseProject.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var dataObjects = response.Content.ReadAsAsync<IEnumerable<GithubJob>>().Result;
+
                     return dataObjects;
                 }
                 else
                 {
                     Console.WriteLine($"{response.StatusCode} ({response.ReasonPhrase})");
                 }
+
                 return null;
+
             }
         }
     }

@@ -23,7 +23,7 @@ export default function Detail() {
     return (
         <ul className="list-group" style={{ position: 'absolute', textAlign: 'left' }}>
             <li className="list-group-item" style={{fontSize: '25px'}}><strong><img style={{width:'200px', height:'auto'}} src={job.company_logo} alt={job.company}></img></strong></li>
-            <li className="list-group-item" style={{fontSize: '20px'}}><strong>Title: </strong> {job.title}</li>
+            <li className="list-group-item" style={{ fontSize: '20px' }}><strong>Title: </strong> {job.title}</li>
             <li className="list-group-item" style={{fontSize: '20px'}}><strong>Location: </strong> : {job.location}</li>
             <li className="list-group-item" style={{wordSpacing: '5px'}}><strong>Description: </strong>  <DetailDesc DetailDesc={job.description} /></li>
         </ul>
