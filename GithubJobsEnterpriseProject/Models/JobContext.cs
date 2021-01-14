@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace GithubJobsEnterpriseProject.Models
 {
-    public class JobContext : DbContext
+
+    public class JobContext : DbContext, IJobContext
     {
         public DbSet<GithubJob> JobItems { get; set; }
         public JobContext(DbContextOptions<JobContext> options)
@@ -14,6 +15,6 @@ namespace GithubJobsEnterpriseProject.Models
         {
         }
 
-        
+
     }
 }

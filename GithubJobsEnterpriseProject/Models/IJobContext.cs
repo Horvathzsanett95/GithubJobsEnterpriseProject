@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace GithubJobsEnterpriseProject.Models
 {
-    interface IJobContext
+    public interface IJobContext
     {
+        DbSet<GithubJob> JobItems { get; set; }
     }
 }
