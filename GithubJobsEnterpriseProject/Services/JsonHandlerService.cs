@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
 using GithubJobsEnterpriseProject.Models;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace GithubJobsEnterpriseProject.Services
 {
-    public class JsonHandlerService : IJsonHandlerService
+    public class JsonHandlerService
     {
         private const string _JSONPATH = "users.json";
         private IsolatedStorageFile isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null);
 
+
         public List<User> DeconvertUsersJson()
         {
+
+
             if (isoStore.FileExists(_JSONPATH))
             {
                 Console.WriteLine("The file already exists!");
@@ -48,6 +52,7 @@ namespace GithubJobsEnterpriseProject.Services
 
         public void Save(User user)
         {
+
             if (isoStore.FileExists(_JSONPATH))
             {
                 using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(_JSONPATH, FileMode.Append, isoStore))

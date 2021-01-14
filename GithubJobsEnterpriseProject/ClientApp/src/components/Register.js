@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import Login from './Login'
+import { Redirect } from 'react-router-dom';
+import axios from 'axios';
+import Login from './Login';
 
 export default function Register() {
+
     const handleSubmit = (event) => {
-        
     }
 
     return (
-        <form method="POST" action="/registration" onSubmit={handleSubmit} style={{ padding: '5%', border: '1px solid #ced4da', marginBottom: '2%'}}>
+        <form method="POST" onSubmit={handleSubmit} style={{ padding: '5%', border: '1px solid #ced4da', marginBottom: '2%'}}>
                 <div class="container register-form">
                     <div class="row">
                         <div class="col-md-6">
