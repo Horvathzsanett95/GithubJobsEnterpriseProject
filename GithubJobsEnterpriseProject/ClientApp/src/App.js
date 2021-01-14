@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {MarkedProvider} from './MarkedContext';
 import logo from './logo.png';
 import githubLogo from './github-logo.png';
@@ -36,7 +37,17 @@ function App() {
     textDecoration: 'none',
     backgroundColor: "#78c3ff",
     width: "200px",
-  }
+    }
+
+    useEffect(() => {
+        getJobs();
+    }, []);
+
+    const [jobs, setJobs] = useState([]);
+
+    const getJobs = () => {
+        axios.get('/api').then(data => setJobs(data.data))
+    }
 
   return (
     <MarkedProvider>
@@ -105,7 +116,7 @@ function App() {
             <Statistics />
           </Route>
             <Route path="/">
-                <Home onChange={handleChange}/> 
+            <Home jobs={jobs} onChange={handleChange}/> 
           </Route>
         </Switch>
       </div>

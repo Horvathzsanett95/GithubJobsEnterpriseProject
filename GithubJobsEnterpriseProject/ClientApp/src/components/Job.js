@@ -27,6 +27,10 @@ export default function Job(props) {
         setShowedPicture(pictureToSet)
         if (props.job.is_marked == true) {
             setMarkedJob(jobs => [...jobs, props.job])
+        } else {
+            const newList = markedJobs.filter((item) => item.id !== props.job.id);
+
+            setMarkedJob(newList)
         }
         
 
