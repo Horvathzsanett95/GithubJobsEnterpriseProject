@@ -5,6 +5,7 @@ import FullHeart from '../full-heart.png';
 import './Job.css';
 import Rater from 'react-rater';
 import 'react-rater/lib/react-rater.css';
+import axios from 'axios';
 
 export default function Job(props) {
     const [markedJobs, setMarkedJob] = useContext(MarkedContext);
@@ -54,7 +55,17 @@ export default function Job(props) {
     }
 
     const rateHandler = function (e) {
-        alert(e.rating);
+        const rating = e.rating;
+        const id = props.job.id;
+        axios
+            .post('/add-rating', {
+                UserId: props.job.id,
+                RatingValue: e.rating
+            })
+            .then(() => console.log('Book Created'))
+            .catch(err => {
+                console.error(err);
+            });
     }
 
     let link = '/detail?id=' + props.job.id;

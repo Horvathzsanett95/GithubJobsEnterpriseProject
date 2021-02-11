@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -6,6 +7,9 @@ namespace GithubJobsEnterpriseProject.Models
 {
     public class GithubJob
     {
+        public GithubJob() {
+            Ratings = new HashSet<Rating>();
+        }
         [Key]
         public string Id { get; set; }
         [Required]
@@ -29,5 +33,7 @@ namespace GithubJobsEnterpriseProject.Models
         [JsonProperty(PropertyName = "company_logo")]
         public string CompanyLogo { get; set; }
         public bool IsMarked { get; set; }
+
+        public ICollection<Rating> Ratings { get; set; }
     }
 }

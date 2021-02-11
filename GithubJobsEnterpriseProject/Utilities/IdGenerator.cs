@@ -10,7 +10,6 @@ namespace GithubJobsEnterpriseProject.Utilities
     {
         private IdGenerator()
         {
-
         }
 
         public static string IdStringGenerator()
