@@ -7,10 +7,11 @@ import './App.css';
 import Home from './components/Home';
 import Marked from './components/Marked';
 import Statistics from './components/Statistics';
-import SearchResults from './components/SearchResults'
-import Detail from './components/Detail'
-import Register from './components/Register'
-import Login from './components/Login'
+import SearchResults from './components/SearchResults';
+import Detail from './components/Detail';
+import Register from './components/Register';
+import Login from './components/Login';
+import HireForm from './components/HireForm';
 
 import {
   BrowserRouter as Router,
@@ -26,7 +27,23 @@ function App() {
   function handleChange(markedJob) {
     markedJobs.push(markedJob)
     console.log(markedJobs)
-  }
+    }
+
+  const SeparatedButtonStyle = {
+      position: "absolute",
+      width: "120px",
+      fontSize: 20,
+      borderStyle: "solid",
+      float: "right",
+      left: "90%",
+      top: "5%",
+      transform: "translate(95 %)",
+      display: "inline-block",
+      margin: "5px",
+      padding: "3px",
+      backgroundColor: "#fc0303",
+      borderRadius: "15px"
+    }
 
   const NavElementStyle = {
     fontSize: 20,
@@ -61,6 +78,9 @@ function App() {
       <div>
             <nav>
             <ul>
+            <li style={SeparatedButtonStyle}>
+              <Link to="/hire-form">Hire with us!</Link>
+            </li>
             <li  style={NavElementStyle}>
               <img src={githubLogo} className="Git-logo" alt="logo" />
               <Link to="/" style={{color:'black'}}>Home</Link>
@@ -96,7 +116,10 @@ function App() {
 
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
-        <Switch>
+      <Switch>
+          <Route path="/hire-form">
+            <HireForm />
+          </Route>
           <Route path="/search">
             <SearchResults />
           </Route>
