@@ -1,5 +1,6 @@
 ﻿using GithubJobsEnterpriseProject.Models;
 using GithubJobsEnterpriseProject.Services;
+using GithubJobsEnterpriseProject.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -201,6 +202,25 @@ namespace GithubJobsEnterpriseProject.Controllers
             var password = Request.Form["Password"];
 
             Login(username, password);
+
+            return NoContent();
+
+        }
+
+        [HttpPost("/hire-form")]
+        public ActionResult SaveFormToDb()
+        {
+            GithubJob job = new GithubJob();
+            job.Id = IdGenerator.IdStringGenerator();
+            job.Type = Request.Form["Type"];
+            job.Company = Request.Form["Company"];
+            job.Location = Request.Form["Location"];
+            job.Title = Request.Form["Title"];
+            job.Description = Request.Form["Description"];
+            job.HowToApply = Request.Form["HowToApply"];
+            job.CompanyUrl = Request.Form["CompanyUrl"];
+            _context.JobItems.Add(job);
+            _context.SaveChanges();
 
             return NoContent();
 

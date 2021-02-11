@@ -3,6 +3,8 @@ import { MarkedContext } from '../MarkedContext';
 import EmptyHeart from '../empty-heart.png';
 import FullHeart from '../full-heart.png';
 import './Job.css';
+import Rater from 'react-rater';
+import 'react-rater/lib/react-rater.css';
 
 export default function Job(props) {
     const [markedJobs, setMarkedJob] = useContext(MarkedContext);
@@ -51,6 +53,10 @@ export default function Job(props) {
         display: "inline-block"
     }
 
+    const rateHandler = function (e) {
+        alert(e.rating);
+    }
+
     let link = '/detail?id=' + props.job.id;
 
     return (
@@ -60,6 +66,7 @@ export default function Job(props) {
             <div style={{ height: "45px" }}><p>{props.job.location}</p></div>
             <div style={{ height: "45px" }}><p><strong>Company:</strong> {props.job.company}</p></div>
             <div style={{ height: "30px" }}><p><strong>Type:</strong> {props.job.type}</p></div>
+            <div style={{ height: "30px" }}><Rater total={5} rating={0} onRate={ rateHandler }/></div>
         </div>
     )
 }
