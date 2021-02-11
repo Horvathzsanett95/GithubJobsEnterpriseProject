@@ -36,17 +36,26 @@ namespace GithubJobsEnterpriseProject.Controllers
         public void GetJobs()
         {
             var items = _context.JobItems;
-            if (items != null)
-            {
-                _context.RemoveRange(_context.JobItems);
-            }
+            //if (items != null)
+            //{
+            //    _context.RemoveRange(_context.JobItems);
+            //}
             IEnumerable<GithubJob> GithubJobs = _apiService.GetGithubJobsFromUrl();
 
             foreach (GithubJob job in GithubJobs)
             {
+                foreach (GithubJob contextJob in _context.JobItems)
+                {
+                    if(job.Id == contextJob.Id)
+                    {
+                        _context.JobItems.Remove(contextJob);
+                    }
+                    
+                }
                 _context.JobItems.AddRange(job);
                 Console.WriteLine(job.Title);
                 _context.SaveChanges();
+
             }
         }
 
