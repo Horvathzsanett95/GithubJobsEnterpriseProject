@@ -40,9 +40,19 @@ namespace GithubJobsEnterpriseProject.Controllers
 
             foreach (GithubJob job in GithubJobs)
             {
-                _context.JobItems.Update(job);
-                _context.SaveChanges();
+                //_context.JobItems.UpdateRange(job);
+                foreach (Rating rating in _context.Rating)
+                {
+                    if (rating.UserId == job.Id)
+                    {
+                        job.Ratings.Add(rating);
+                        _context.SaveChanges();
+                    }
+                }
+
             }
+
+
         }
 
         // GET: api/GithubJobs/5

@@ -70,6 +70,24 @@ export default function Job(props) {
 
     let link = '/detail?id=' + props.job.id;
 
+
+    const actualRate = () => {
+        let allVoteSum = 0;
+        let allVotes = 0;
+        const ratings = props.job.ratings
+        ratings.forEach(rating => {
+            allVoteSum += rating.ratingValue;
+            allVotes += 1;
+        })
+        if (allVotes == 0) {
+            return 0;
+        } else {
+            return Math.floor(allVoteSum / allVotes)
+        }
+    }
+
+    const calculatedRate = actualRate()
+
     return (
         <div className="jobCard" style={cardStyling}>
             <div style={{ height: "80px" }}><a href={link} style={{ fontSize: '20px' }}>{props.job.title}</a>
@@ -77,7 +95,7 @@ export default function Job(props) {
             <div style={{ height: "45px" }}><p>{props.job.location}</p></div>
             <div style={{ height: "45px" }}><p><strong>Company:</strong> {props.job.company}</p></div>
             <div style={{ height: "30px" }}><p><strong>Type:</strong> {props.job.type}</p></div>
-            <div style={{ height: "30px" }}><Rater total={5} rating={0} onRate={ rateHandler }/></div>
+            <div style={{ height: "30px" }}><Rater total={5} rating={calculatedRate} onRate={rateHandler} /></div>
         </div>
     )
 }
