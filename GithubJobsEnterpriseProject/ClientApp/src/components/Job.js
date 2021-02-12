@@ -5,6 +5,7 @@ import FullHeart from '../full-heart.png';
 import './Job.css';
 import Rater from 'react-rater';
 import 'react-rater/lib/react-rater.css';
+import axios from 'axios';
 
 export default function Job(props) {
     const [markedJobs, setMarkedJob] = useContext(MarkedContext);
@@ -54,10 +55,38 @@ export default function Job(props) {
     }
 
     const rateHandler = function (e) {
-        alert(e.rating);
+        const rating = e.rating;
+        const id = props.job.id;
+        axios
+            .post('/add-rating', {
+                UserId: props.job.id,
+                RatingValue: e.rating
+            })
+            .then(() => console.log('Book Created'))
+            .catch(err => {
+                console.error(err);
+            });
     }
 
     let link = '/detail?id=' + props.job.id;
+
+
+    const actualRate = () => {
+        let allVoteSum = 0;
+        let allVotes = 0;
+        const ratings = props.job.ratings
+        ratings.forEach(rating => {
+            allVoteSum += rating.ratingValue;
+            allVotes += 1;
+        })
+        if (allVotes == 0) {
+            return 0;
+        } else {
+            return Math.floor(allVoteSum / allVotes)
+        }
+    }
+
+    const calculatedRate = actualRate()
 
     return (
         <div className="jobCard" style={cardStyling}>
@@ -66,7 +95,7 @@ export default function Job(props) {
             <div style={{ height: "45px" }}><p>{props.job.location}</p></div>
             <div style={{ height: "45px" }}><p><strong>Company:</strong> {props.job.company}</p></div>
             <div style={{ height: "30px" }}><p><strong>Type:</strong> {props.job.type}</p></div>
-            <div style={{ height: "30px" }}><Rater total={5} rating={0} onRate={ rateHandler }/></div>
+            <div style={{ height: "30px" }}><Rater total={5} rating={calculatedRate} onRate={rateHandler} /></div>
         </div>
     )
 }
