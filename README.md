@@ -4,8 +4,8 @@
 This web page was made to help IT job seekers to find a perfect position. It uses Github API and its own database too. Visitors can also add job opportunities to the database, so they can hire via this page.
 
 ## Technoligies
-1. React JS (Frontend)
-+_CSS_
+1. React JS (Frontend)<br>
++_CSS_<br>
 +_SCSS_
 2. ASP .Net Core (Backend)
 3. Entity Framework (Database connection)
@@ -31,5 +31,5 @@ To run this application you need to install all dependencies from **package.json
   ```
   
  ## Authors
- Zsanett Horváth (Dec 14 2020 - now)
+ Zsanett Horváth (Dec 14 2020 - now)<br>
  Dominik Nyerges (Dec 14 2020 - Jan 14 2021)
