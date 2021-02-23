@@ -1,5 +1,6 @@
 using GithubJobsEnterpriseProject.Controllers;
 using GithubJobsEnterpriseProject.Models;
+using GithubJobsEnterpriseProject.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
