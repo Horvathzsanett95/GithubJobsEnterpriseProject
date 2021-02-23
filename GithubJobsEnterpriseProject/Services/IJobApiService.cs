@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GithubJobsEnterpriseProject.Services
 {
-    interface IJobApiService
+    public interface IJobApiService
     {
         public Appsettings GetLink();
         public IEnumerable<GithubJob> GetGithubJobsFromUrl();
