@@ -27,7 +27,8 @@ To run this application you need to install all dependencies from **package.json
     "react-scripts": "^3.4.1",
     "reactstrap": "^8.4.1",
     "rimraf": "^2.6.2"
-  }```
+  } 
+  ```
   
  ## Authors
  Zsanett Horváth (Dec 14 2020 - now)
