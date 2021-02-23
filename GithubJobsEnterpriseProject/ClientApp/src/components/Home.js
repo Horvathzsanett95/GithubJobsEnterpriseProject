@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+﻿import React, { useState, useEffect } from 'react'
 import Job from './Job';
 
 export default function Home(props) {
@@ -10,8 +10,8 @@ export default function Home(props) {
 
 
     function showElements(job) {
-        
-        return (<Job job={job} onChange={handleSubmit}/>)
+
+        return (<Job job={job} onChange={handleSubmit} />)
     }
 
     return props.jobs.map(showElements)
