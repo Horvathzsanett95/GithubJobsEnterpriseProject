@@ -10,6 +10,7 @@ namespace GithubJobsEnterpriseProject.Models
     {
         public DbSet<GithubJob> JobItems { get; set; }
         public DbSet<Rating> Rating { get; set; }
+        public DbSet<User> Users { get; set; }
         public JobContext(DbContextOptions<JobContext> options)
             : base(options)
         {
