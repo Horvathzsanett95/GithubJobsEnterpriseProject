@@ -14,7 +14,8 @@ This web page was made to help IT job seekers to find a perfect position. It use
 
 ## Packages 
 To run this application you need to install all dependencies from **package.json**:
-```"dependencies": {
+```
+"dependencies": {
     "babel-jest": "^26.6.3",
     "bootstrap": "^4.1.3",
     "jquery": "^3.5.1",
