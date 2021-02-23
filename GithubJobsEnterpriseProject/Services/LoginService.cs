@@ -5,52 +5,30 @@ using System.Security.Cryptography;
 
 namespace GithubJobsEnterpriseProject.Services
 {
-    public class LoginService
+    public class LoginService : ILoginService
     {
-        private string _username { get; set; }
-        private string _password { get; set; }
-        private List<User> _userList { get; set; }
-
-        public LoginService(string username, string password,List<User> users)
+        private readonly JobContext _context;
+        private readonly IPasswordHandlerService _passwordService;
+        public LoginService(JobContext context, IPasswordHandlerService passwordService)
         {
-            this._password = password;
-            this._username = username;
-            this._userList = users;
+            _context = context;
+            _passwordService = passwordService;
         }
 
-        public bool Login()
+        public bool Login(string username, string password)
         {
-            string savedPasswordHash = "";
+            string hashedPassword;
+            bool isPasswordMatching = false;
 
-            foreach (var user in _userList)
+            foreach (var user in _context.Users)
             {
-                if(user.Username == _username)
+                if(user.Username == username)
                 {
-                    savedPasswordHash = user.Password;
+                    hashedPassword = user.Password;
+                    isPasswordMatching = _passwordService.PasswordValidator(hashedPassword, password);
                 }
             }
-
-            byte[] hashBytes = Convert.FromBase64String(savedPasswordHash);
-
-            byte[] salt = new byte[16];
-            Array.Copy(hashBytes, 0, salt, 0, 16);
-
-            var pbkdf2 = new Rfc2898DeriveBytes(_password, salt, 100000);
-            byte[] hash = pbkdf2.GetBytes(20);
-
-            for (int i = 0; i < 20; i++)
-            {
-                if (hashBytes[i + 16] != hash[i])
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            }
-            return false;
-
+            return isPasswordMatching;
         }
     }
 }

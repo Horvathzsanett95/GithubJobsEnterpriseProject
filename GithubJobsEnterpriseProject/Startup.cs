@@ -35,6 +35,10 @@ namespace GithubJobsEnterpriseProject
                 opt.UseSqlServer(Configuration.GetConnectionString("JobContext")));
             services.AddSingleton<IJobApiService, JobApiService>();
             services.AddSingleton<IEmailSenderService, EmailSenderService>();
+            services.AddSingleton<IPasswordHandlerService, PasswordHandlerService>();
+            services.AddSingleton<IJobApiService, JobApiService>();
+            services.AddTransient<ILoginService, LoginService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
