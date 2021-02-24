@@ -41,7 +41,6 @@ namespace GithubJobsEnterpriseProject.Tests
             LoginService service = new LoginService(context, substitude);
             bool result = service.Login("username", "password");
             Assert.IsTrue(result);
-
         }
     }
 }
