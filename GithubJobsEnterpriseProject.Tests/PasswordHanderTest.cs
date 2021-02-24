@@ -12,12 +12,23 @@ namespace GithubJobsEnterpriseProject.Tests
     class PasswordHanderTest
     {
         [Test]
-        public void TestIsPasswordIsConverted()
+        public void EncryptPasswordToHashCodeShouldReturnSafePasswordTest()
         {
-            PasswordHandlerService passwordHanderService = new PasswordHandlerService("Password");
-            var result = passwordHanderService.HashUserGivenPassword();
+            PasswordHandlerService service = new PasswordHandlerService();
+            string password = "123";
+            string hashedPwd = service.HashUserGivenPassword(password);
+            Assert.AreNotEqual(hashedPwd, password);
+            Assert.IsTrue(hashedPwd.Length > password.Length);
+        }
 
-            Assert.AreNotEqual("Password", result);
+        [Test]
+        public void DecríptPasswordFromHashReturnsTrueTest()
+        {
+            PasswordHandlerService service = new PasswordHandlerService();
+            string password = "123";
+            string hashedPwd = service.HashUserGivenPassword(password);
+            bool isMatching = service.PasswordValidator(hashedPwd, password);
+            Assert.IsTrue(isMatching);
         }
     }
 }

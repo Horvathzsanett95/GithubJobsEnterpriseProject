@@ -1,6 +1,7 @@
 using GithubJobsEnterpriseProject.Controllers;
 using GithubJobsEnterpriseProject.Models;
 using GithubJobsEnterpriseProject.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -38,6 +39,8 @@ namespace GithubJobsEnterpriseProject
             services.AddSingleton<IPasswordHandlerService, PasswordHandlerService>();
             services.AddSingleton<IJobApiService, JobApiService>();
             services.AddTransient<ILoginService, LoginService>();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie();
 
         }
 
@@ -78,6 +81,7 @@ namespace GithubJobsEnterpriseProject
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+
         }
     }
 }

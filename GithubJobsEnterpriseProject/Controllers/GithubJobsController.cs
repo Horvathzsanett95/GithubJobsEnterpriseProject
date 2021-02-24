@@ -202,8 +202,10 @@ namespace GithubJobsEnterpriseProject.Controllers
             var password = Request.Form["Password"];
             bool isLogged = _loginService.Login(username, password);
             Console.WriteLine(isLogged);
-            
+            if(isLogged)
+            {
 
+            }
             return NoContent();
 
         }
