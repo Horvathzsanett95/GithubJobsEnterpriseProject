@@ -1,18 +1,47 @@
 ﻿using GithubJobsEnterpriseProject.Models;
 using GithubJobsEnterpriseProject.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using NSubstitute;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GithubJobsEnterpriseProject.Tests
 {
     class LoginServiceTest
     {
-     
-      
-        
+        public static IConfiguration InitConfiguration()
+        {
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+            return config;
+        }
+
+        public static JobContext InitContext()
+        {
+            
+            var options = new DbContextOptionsBuilder<JobContext>()
+            .UseInMemoryDatabase(databaseName: "JobDatabase")
+            .Options;
+            var context = new JobContext(options);
+            return context;
+        }
+
+        [Test] 
+        public void LoginReturnsTrueWithValidCredentialsTest()
+        {
+            var context = InitContext();
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
+            User user = new User("username", "password", "email@gmail.com");
+            context.Add(user);
+            context.SaveChanges();
+            var substitude = Substitute.For<IPasswordHandlerService>();
+            substitude.PasswordValidator(Arg.Any<string>(), Arg.Any<string>()).Returns(true);
+            LoginService service = new LoginService(context, substitude);
+            bool result = service.Login("username", "password");
+            Assert.IsTrue(result);
+
+        }
     }
 }
