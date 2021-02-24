@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GithubJobsEnterpriseProject.Models
 {
-    interface IJobContext
+    public interface IJobContext
     {
     }
 }

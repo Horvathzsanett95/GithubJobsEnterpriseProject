@@ -1,4 +1,5 @@
 ﻿using GithubJobsEnterpriseProject.Models;
+using GithubJobsEnterpriseProject.Services;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;

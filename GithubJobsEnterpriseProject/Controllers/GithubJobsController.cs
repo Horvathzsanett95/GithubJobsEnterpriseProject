@@ -17,12 +17,22 @@ namespace GithubJobsEnterpriseProject.Controllers
     {
         private readonly JobContext _context;
         private readonly IJobApiService _apiService;
+        private readonly IEmailSenderService _emailService;
+        private readonly IPasswordHandlerService _passwordService;
+        private readonly ILoginService _loginService;
              
-        public GithubJobsController(JobContext context, IJobApiService apiService)
+        public GithubJobsController(JobContext context, 
+            IJobApiService apiService, 
+            IEmailSenderService emailService, 
+            IPasswordHandlerService passwordService,
+            ILoginService loginService)
         {
 
             _context = context;
             _apiService = apiService;
+            _emailService = emailService;
+            _passwordService = passwordService;
+            _loginService = loginService;
         }
 
         // GET: api/GithubJobs
@@ -174,20 +184,15 @@ namespace GithubJobsEnterpriseProject.Controllers
             var username = Request.Form["Username"];
             var email = Request.Form["Email"];
             var password = Request.Form["Password"];
-
-            Save(username, email, password);
+            var hashedPassword = _passwordService.HashUserGivenPassword(password);
+            User user = new User(username, email, hashedPassword);
+            _context.Users.Add(user);
+            _context.SaveChanges();
+            _emailService.SendEmail(email);
 
             return Redirect("/");
-
         }
 
-        public void Save(string username, string email, string password)
-        {
-            var hashedPassword = new PasswordHandlerService(password).HashUserGivenPassword();
-            User user = new User(username, email, hashedPassword);
-            new JsonHandlerService().Save(user);
-
-        }
 
         [HttpPost("/login")]
         public ActionResult GetLoginCredentials()
@@ -195,9 +200,12 @@ namespace GithubJobsEnterpriseProject.Controllers
 
             var username = Request.Form["Username"];
             var password = Request.Form["Password"];
+            bool isLogged = _loginService.Login(username, password);
+            Console.WriteLine(isLogged);
+            if(isLogged)
+            {
 
-            Login(username, password);
-
+            }
             return NoContent();
 
         }
@@ -238,14 +246,6 @@ namespace GithubJobsEnterpriseProject.Controllers
 
         }
 
-        private void Login(string username, string password)
-        {
-            var users = new JsonHandlerService().DeconvertUsersJson();
-            var loginService = new LoginService(username, password, users);
-            if (loginService.Login()) { 
-
-            }
-        }
 
     }
 

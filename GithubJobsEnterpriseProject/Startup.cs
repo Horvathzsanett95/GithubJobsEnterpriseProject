@@ -1,5 +1,7 @@
 using GithubJobsEnterpriseProject.Controllers;
 using GithubJobsEnterpriseProject.Models;
+using GithubJobsEnterpriseProject.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -32,7 +34,14 @@ namespace GithubJobsEnterpriseProject
             });
             services.AddDbContext<JobContext>(opt =>
                 opt.UseSqlServer(Configuration.GetConnectionString("JobContext")));
-            services.AddTransient<IJobApiService, JobApiService>();
+            services.AddSingleton<IJobApiService, JobApiService>();
+            services.AddSingleton<IEmailSenderService, EmailSenderService>();
+            services.AddSingleton<IPasswordHandlerService, PasswordHandlerService>();
+            services.AddSingleton<IJobApiService, JobApiService>();
+            services.AddTransient<ILoginService, LoginService>();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,6 +81,7 @@ namespace GithubJobsEnterpriseProject
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+
         }
     }
 }
