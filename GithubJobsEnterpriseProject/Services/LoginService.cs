@@ -1,7 +1,4 @@
 ﻿using GithubJobsEnterpriseProject.Models;
-using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
 
 namespace GithubJobsEnterpriseProject.Services
 {
