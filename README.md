@@ -3,6 +3,11 @@
 # About the project
 This web page was made to help IT job seekers to find a perfect position. It uses Github API and its own database too. Visitors can also add job opportunities to the database, so they can hire via this page.
 
+## Idea
+The idea of making this project was to make a similar page that Github made for jobseekers. ( https://jobs.github.com/ )<br>
+The original version used the API page of https://jobs.github.com/, but in the latest version the application uses an own MSSql database to store its own data instead of using external resources.
+
+
 ## Technoligies
 1. React JS (Frontend)<br>
 +_CSS_<br>
@@ -10,6 +15,13 @@ This web page was made to help IT job seekers to find a perfect position. It use
 2. ASP .Net Core (Backend)
 3. Entity Framework (Database connection)
 4. MSSql (Database)
+
+
+## Prerequisites
+The application uses Axios to communicate with the backend. To install it run the following command:
+```
+npm install axios
+```
 
 
 ## Packages 
