@@ -1,4 +1,4 @@
-<h1 align="center">GithubJobsEnterpriseProject</h1>
+<h1 align="center">GithubJobs Enterprise Project</h1>
 
 # About the project
 This web page was made to help IT job seekers to find a perfect position. It uses Github API and its own database too. Visitors can also add job opportunities to the database, so they can hire via this page.
