@@ -1,6 +1,6 @@
 ﻿namespace GithubJobsEnterpriseProject.Models
 {
-    public interface IJobContext
+    public interface IGithubJobsContext
     {
     }
 }

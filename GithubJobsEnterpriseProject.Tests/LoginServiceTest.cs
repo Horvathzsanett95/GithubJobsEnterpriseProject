@@ -17,13 +17,13 @@ namespace GithubJobsEnterpriseProject.Tests
             return config;
         }
 
-        public static JobContext InitContext()
+        public static GithubJobsContext InitContext()
         {
             
-            var options = new DbContextOptionsBuilder<JobContext>()
+            var options = new DbContextOptionsBuilder<GithubJobsContext>()
             .UseInMemoryDatabase(databaseName: "JobDatabase")
             .Options;
-            var context = new JobContext(options);
+            var context = new GithubJobsContext(options);
             return context;
         }
 

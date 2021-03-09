@@ -9,7 +9,7 @@ namespace GithubJobsEnterpriseProject.Controllers
 {
     interface IGitHubJobsController 
     {
-        public Task<ActionResult<IEnumerable<GithubJob>>> GetJobItems();
+        public IEnumerable<GithubJob> GetJobItems();
         public Task<ActionResult<GithubJob>> GetGithubJob(string id);
         public Task<IActionResult> PutGithubJob(string id, GithubJob githubJob);
         public Task<ActionResult<GithubJob>> PostGithubJob(GithubJob githubJob);

@@ -5,8 +5,8 @@ namespace GithubJobsEnterpriseProject.Services
 {
     public class LoginService : ILoginService
     {
-        private readonly JobContext _context;
-        public LoginService(JobContext context)
+        private readonly GithubJobsContext _context;
+        public LoginService(GithubJobsContext context)
         {
             _context = context;
         }

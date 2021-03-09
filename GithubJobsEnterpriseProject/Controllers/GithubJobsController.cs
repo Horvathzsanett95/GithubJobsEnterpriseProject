@@ -14,30 +14,36 @@ namespace GithubJobsEnterpriseProject.Controllers
     [ApiController]
     public class GithubJobsController : ControllerBase, IGitHubJobsController
     {
-        private readonly JobContext _context;
+        private readonly GithubJobsContext _context;
         private readonly IJobApiService _apiService;
         private readonly IEmailSenderService _emailService;
         private readonly ILoginService _loginService;
+        private readonly IUnitOfWork _unit;
              
-        public GithubJobsController(JobContext context, 
+        public GithubJobsController(GithubJobsContext context, 
             IJobApiService apiService, 
             IEmailSenderService emailService, 
-            ILoginService loginService)
+            ILoginService loginService,
+            IUnitOfWork unit)
         {
 
             _context = context;
             _apiService = apiService;
             _emailService = emailService;
             _loginService = loginService;
+            _unit = unit;
         }
 
         // GET: api/GithubJobs
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GithubJob>>> GetJobItems()
+        public IEnumerable<GithubJob> GetJobItems()
         {
 
-            GetJobs();
-            return await _context.JobItems.ToListAsync();
+            //GetJobs();
+            //return await _context.JobItems.ToListAsync();
+            IEnumerable<Rating> ratings = _unit.Ratings.GetAll();
+            _unit.Jobs.BindJobsWithRatings(ratings);
+            return _unit.Jobs.GetAll();
         }
 
         public void GetJobs()

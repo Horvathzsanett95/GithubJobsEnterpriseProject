@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GithubJobsEnterpriseProject.Migrations
 {
-    [DbContext(typeof(JobContext))]
+    [DbContext(typeof(GithubJobsContext))]
     [Migration("20210211171545_ratings")]
     partial class ratings
     {

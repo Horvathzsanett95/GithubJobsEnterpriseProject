@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GithubJobsEnterpriseProject.Migrations
 {
-    [DbContext(typeof(JobContext))]
+    [DbContext(typeof(GithubJobsContext))]
     [Migration("20210223115706_Users")]
     partial class Users
     {

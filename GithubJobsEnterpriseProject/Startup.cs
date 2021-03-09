@@ -1,5 +1,6 @@
 using GithubJobsEnterpriseProject.Controllers;
 using GithubJobsEnterpriseProject.Models;
+using GithubJobsEnterpriseProject.Models.Repositories;
 using GithubJobsEnterpriseProject.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -32,12 +33,13 @@ namespace GithubJobsEnterpriseProject
             {
                 configuration.RootPath = "ClientApp/build";
             });
-            services.AddDbContext<JobContext>(opt =>
+            services.AddDbContext<GithubJobsContext>(opt =>
                 opt.UseSqlServer(Configuration.GetConnectionString("JobContext")));
             services.AddSingleton<IJobApiService, JobApiService>();
             services.AddSingleton<IEmailSenderService, EmailSenderService>();
             services.AddSingleton<IJobApiService, JobApiService>();
             services.AddTransient<ILoginService, LoginService>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie();
 
