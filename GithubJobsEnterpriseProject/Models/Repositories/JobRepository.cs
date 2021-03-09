@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GithubJobsEnterpriseProject.Models.Repositories
 {
@@ -22,6 +24,21 @@ namespace GithubJobsEnterpriseProject.Models.Repositories
                     }
                 }
             }
+        }
+
+        public IEnumerable<GithubJob> GetJobByParameters(string descriptionParameter, string locationParameter)
+        {
+            var result = GithubJobsContext.JobItems.Where(x => x.Description.Contains(descriptionParameter));
+                
+            var final = result.Where(job => job.Location.Contains(locationParameter))
+                .ToList();
+            Console.WriteLine(descriptionParameter);
+            Console.WriteLine(locationParameter);
+            foreach (var item in result)
+            {
+                Console.WriteLine(item.Title);
+            }
+            return final;
         }
     }
 }

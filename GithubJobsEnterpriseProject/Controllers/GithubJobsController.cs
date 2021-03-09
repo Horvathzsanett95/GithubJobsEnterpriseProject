@@ -54,19 +54,9 @@ namespace GithubJobsEnterpriseProject.Controllers
 
         [HttpGet("description={description}&location={location}")]
         public IEnumerable<GithubJob> GetGithubJobByDescriptionAndPlace([FromRoute] string description,
-                                                                                                  [FromRoute] string location)
+                                                                        [FromRoute] string location)
         {
-            var items = _unit.Jobs.GetAll();
-            if (items != null)
-            {
-                _unit.Jobs.RemoveRange(items);
-            }
-            IEnumerable<GithubJob> GithubJobs = _apiService.GetGithubJobsByParameters(description, location);
-
-
-            _unit.Jobs.AddRange(GithubJobs);
-            _unit.Complete();
-            return _unit.Jobs.GetAll();
+            return _unit.Jobs.GetJobByParameters(description, location);
         }
         
 

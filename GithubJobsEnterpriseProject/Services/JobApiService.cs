@@ -52,30 +52,5 @@ namespace GithubJobsEnterpriseProject.Controllers
             }
         }
 
-        public IEnumerable<GithubJob> GetGithubJobsByParameters(string descriptionParameter, string locationParameter)
-        {
-            string url = appsettings.BaseUrl;
-            _urlParameters = "positions.json?description=" + descriptionParameter + "&location=" + locationParameter;
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(url);
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage response = client.GetAsync(_urlParameters).Result;
-                if (response.IsSuccessStatusCode)
-                {
-                    var dataObjects = response.Content.ReadAsAsync<IEnumerable<GithubJob>>().Result;
-
-                    return dataObjects;
-                }
-                else
-                {
-                    Console.WriteLine($"{response.StatusCode} ({response.ReasonPhrase})");
-                }
-
-                return null;
-
-            }
-        }
     }
 }
