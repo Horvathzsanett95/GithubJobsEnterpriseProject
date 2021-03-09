@@ -36,7 +36,6 @@ namespace GithubJobsEnterpriseProject
                 opt.UseSqlServer(Configuration.GetConnectionString("JobContext")));
             services.AddSingleton<IJobApiService, JobApiService>();
             services.AddSingleton<IEmailSenderService, EmailSenderService>();
-            services.AddSingleton<IPasswordHandlerService, PasswordHandlerService>();
             services.AddSingleton<IJobApiService, JobApiService>();
             services.AddTransient<ILoginService, LoginService>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

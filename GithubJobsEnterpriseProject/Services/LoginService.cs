@@ -1,15 +1,14 @@
 ﻿using GithubJobsEnterpriseProject.Models;
+using GithubJobsEnterpriseProject.Utilities;
 
 namespace GithubJobsEnterpriseProject.Services
 {
     public class LoginService : ILoginService
     {
         private readonly JobContext _context;
-        private readonly IPasswordHandlerService _passwordService;
-        public LoginService(JobContext context, IPasswordHandlerService passwordService)
+        public LoginService(JobContext context)
         {
             _context = context;
-            _passwordService = passwordService;
         }
 
         public bool Login(string username, string password)
@@ -22,7 +21,7 @@ namespace GithubJobsEnterpriseProject.Services
                 if(user.Username == username)
                 {
                     hashedPassword = user.Password;
-                    isPasswordMatching = _passwordService.PasswordValidator(hashedPassword, password);
+                    isPasswordMatching = PasswordOperations.PasswordValidator(hashedPassword, password);
                 }
             }
             return isPasswordMatching;

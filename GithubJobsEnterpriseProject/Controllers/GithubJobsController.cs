@@ -17,20 +17,17 @@ namespace GithubJobsEnterpriseProject.Controllers
         private readonly JobContext _context;
         private readonly IJobApiService _apiService;
         private readonly IEmailSenderService _emailService;
-        private readonly IPasswordHandlerService _passwordService;
         private readonly ILoginService _loginService;
              
         public GithubJobsController(JobContext context, 
             IJobApiService apiService, 
             IEmailSenderService emailService, 
-            IPasswordHandlerService passwordService,
             ILoginService loginService)
         {
 
             _context = context;
             _apiService = apiService;
             _emailService = emailService;
-            _passwordService = passwordService;
             _loginService = loginService;
         }
 
@@ -183,7 +180,7 @@ namespace GithubJobsEnterpriseProject.Controllers
             var username = Request.Form["Username"];
             var email = Request.Form["Email"];
             var password = Request.Form["Password"];
-            var hashedPassword = _passwordService.HashUserGivenPassword(password);
+            var hashedPassword = PasswordOperations.HashUserGivenPassword(password);
             User user = new User(username, email, hashedPassword);
             _context.Users.Add(user);
             _context.SaveChanges();

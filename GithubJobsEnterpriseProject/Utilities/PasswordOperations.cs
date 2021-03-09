@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Security.Cryptography;
 
-namespace GithubJobsEnterpriseProject.Services
+namespace GithubJobsEnterpriseProject.Utilities
 {
-    public class PasswordHandlerService : IPasswordHandlerService
+    public class PasswordOperations
     {
+        private PasswordOperations()
+        {
 
-        public string HashUserGivenPassword(string password)
+        }
+        public static string HashUserGivenPassword(string password)
         {
             byte[] salt;
             new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
@@ -19,7 +22,7 @@ namespace GithubJobsEnterpriseProject.Services
             return hashedPassword;
         }
 
-        public bool PasswordValidator(string hashedPassword, string password)
+        public static bool PasswordValidator(string hashedPassword, string password)
         {
             byte[] hashBytes = Convert.FromBase64String(hashedPassword);
 
