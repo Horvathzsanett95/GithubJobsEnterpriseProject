@@ -22,6 +22,10 @@ The application uses Axios to communicate with the backend. To install it run th
 ```
 npm install axios
 ```
+Some components are using React Rater. To intall it run command:
+```
+npm install react-rater
+```
 
 
 ## Packages 
