@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace GithubJobsEnterpriseProject.Models.Repositories
 {
@@ -24,7 +22,7 @@ namespace GithubJobsEnterpriseProject.Models.Repositories
             _context.Set<TEntity>().AddRange(entities);
         }
 
-        public TEntity Get(int id)
+        public TEntity Get(string id)
         {
             return _context.Set<TEntity>().Find(id);
         }

@@ -7,7 +7,6 @@ namespace GithubJobsEnterpriseProject.Models.Repositories
         public JobRepository(GithubJobsContext context)
             :base(context)
         {
-            
         }
         public GithubJobsContext GithubJobsContext { get { return _context as GithubJobsContext; } }
         public void BindJobsWithRatings(IEnumerable<Rating> ratings)

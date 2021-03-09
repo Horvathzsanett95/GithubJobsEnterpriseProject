@@ -11,8 +11,5 @@ namespace GithubJobsEnterpriseProject.Controllers
     {
         public IEnumerable<GithubJob> GetJobItems();
         public Task<ActionResult<GithubJob>> GetGithubJob(string id);
-        public Task<IActionResult> PutGithubJob(string id, GithubJob githubJob);
-        public Task<ActionResult<GithubJob>> PostGithubJob(GithubJob githubJob);
-        public Task<IActionResult> DeleteGithubJob(string id);
     }
 }

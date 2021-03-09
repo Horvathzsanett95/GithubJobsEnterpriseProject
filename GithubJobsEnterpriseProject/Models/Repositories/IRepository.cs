@@ -7,7 +7,7 @@ namespace GithubJobsEnterpriseProject.Models.Repositories
 {
     public interface IRepository<TEntity> where TEntity : class
     {
-        TEntity Get(int id);
+        TEntity Get(string id);
         IEnumerable<TEntity> GetAll();
 
         void Add(TEntity entity);
