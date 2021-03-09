@@ -72,6 +72,21 @@ namespace GithubJobsEnterpriseProject.Controllers
             return _unit.Jobs.GetAll();
         }
 
+        [HttpPost("/registration")]
+        public ActionResult GetCredentials()
+        {
+            var username = Request.Form["Username"];
+            var email = Request.Form["Email"];
+            var password = Request.Form["Password"];
+            var hashedPassword = PasswordOperations.HashUserGivenPassword(password);
+            User user = new User(username, email, hashedPassword);
+            _unit.Users.Add(user);
+            _unit.Complete();
+            _emailService.SendEmail(email);
+
+            return Redirect("/");
+        }
+
 
         [HttpPost("/login")]
         public ActionResult GetLoginCredentials()
@@ -114,7 +129,7 @@ namespace GithubJobsEnterpriseProject.Controllers
             job.CompanyUrl = Request.Form["CompanyUrl"];
             _unit.Jobs.Add(job);
             _unit.Complete();
-            return NoContent();
+            return Redirect("/");
 
         }
 

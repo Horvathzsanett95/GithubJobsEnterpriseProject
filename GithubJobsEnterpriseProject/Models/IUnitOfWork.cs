@@ -7,6 +7,7 @@ namespace GithubJobsEnterpriseProject.Models
     {
         IJobRepository Jobs { get; }
         IRatingRepository Ratings { get; }
+        IUserRepository Users { get; }
         int Complete();
     }
 }
