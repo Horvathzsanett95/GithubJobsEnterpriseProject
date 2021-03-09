@@ -13,19 +13,16 @@ namespace GithubJobsEnterpriseProject.Controllers
     public class GithubJobsController : ControllerBase, IGitHubJobsController
     {
         private readonly IJobApiService _apiService;
-        private readonly IEmailSenderService _emailService;
-        private readonly ILoginService _loginService;
+
         private readonly IUnitOfWork _unit;
              
         public GithubJobsController(
             IJobApiService apiService, 
-            IEmailSenderService emailService, 
-            ILoginService loginService,
+            
             IUnitOfWork unit)
         {
             _apiService = apiService;
-            _emailService = emailService;
-            _loginService = loginService;
+            
             _unit = unit;
         }
 
@@ -71,38 +68,7 @@ namespace GithubJobsEnterpriseProject.Controllers
             _unit.Complete();
             return _unit.Jobs.GetAll();
         }
-
-        [HttpPost("/registration")]
-        public ActionResult GetCredentials()
-        {
-            var username = Request.Form["Username"];
-            var email = Request.Form["Email"];
-            var password = Request.Form["Password"];
-            var hashedPassword = PasswordOperations.HashUserGivenPassword(password);
-            User user = new User(username, email, hashedPassword);
-            _unit.Users.Add(user);
-            _unit.Complete();
-            _emailService.SendEmail(email);
-
-            return Redirect("/");
-        }
-
-
-        [HttpPost("/login")]
-        public ActionResult GetLoginCredentials()
-        {
-
-            var username = Request.Form["Username"];
-            var password = Request.Form["Password"];
-            bool isLogged = _loginService.Login(username, password);
-            Console.WriteLine(isLogged);
-            if(isLogged)
-            {
-
-            }
-            return NoContent();
-
-        }
+        
 
         [HttpPost("/add-rating")]
         public ActionResult AddRatingToDatabase(Rating rating)

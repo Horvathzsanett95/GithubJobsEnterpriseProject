@@ -1,16 +1,15 @@
-﻿using GithubJobsEnterpriseProject.Services;
+﻿using GithubJobsEnterpriseProject.Utilities;
 using NUnit.Framework;
 
 namespace GithubJobsEnterpriseProject.Tests
 {
-    class PasswordHanderTest
+    class PasswordOperationTests
     {
         [Test]
         public void EncryptPasswordToHashCodeShouldReturnSafePasswordTest()
         {
-            PasswordHandlerService service = new PasswordHandlerService();
             string password = "123";
-            string hashedPwd = service.HashUserGivenPassword(password);
+            string hashedPwd = PasswordOperations.HashUserGivenPassword(password);
             Assert.AreNotEqual(hashedPwd, password);
             Assert.IsTrue(hashedPwd.Length > password.Length);
         }
@@ -18,10 +17,9 @@ namespace GithubJobsEnterpriseProject.Tests
         [Test]
         public void DecríptPasswordFromHashReturnsTrueTest()
         {
-            PasswordHandlerService service = new PasswordHandlerService();
             string password = "123";
-            string hashedPwd = service.HashUserGivenPassword(password);
-            bool isMatching = service.PasswordValidator(hashedPwd, password);
+            string hashedPwd = PasswordOperations.HashUserGivenPassword(password);
+            bool isMatching = PasswordOperations.PasswordValidator(hashedPwd, password);
             Assert.IsTrue(isMatching);
         }
     }
