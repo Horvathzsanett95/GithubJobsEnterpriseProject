@@ -5,6 +5,7 @@ using GithubJobsEnterpriseProject.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -40,9 +41,13 @@ namespace GithubJobsEnterpriseProject
             services.AddSingleton<IJobApiService, JobApiService>();
             services.AddTransient<ILoginService, LoginService>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie();
 
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<GithubJobsContext>();
+            services.Configure<IdentityOptions>(options =>
+           {
+               options.Password.RequireNonAlphanumeric = false;
+           });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,12 +63,15 @@ namespace GithubJobsEnterpriseProject
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseAuthentication();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
             app.UseRouting();
+
+            
 
             app.UseEndpoints(endpoints =>
             {
