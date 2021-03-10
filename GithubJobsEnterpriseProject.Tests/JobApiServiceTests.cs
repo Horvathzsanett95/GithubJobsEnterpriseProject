@@ -42,14 +42,6 @@ namespace GithubJobsEnterpriseProject.Tests
             Assert.Throws<UriFormatException> (() => jobApiService.GetGithubJobsFromUrl());
         }
 
-        [Test]
-        public void GetGithubJobsFromUrlWithParametersWrongUrlReturnValueTest()
-        {
-            var config = InitConfiguration();
-            string location = "Budapest";
-            string description = "java";
-            JobApiService jobApiService = new JobApiService(config);
-            Assert.IsNotNull(jobApiService.GetGithubJobsByParameters(description, location));
-        }
+
     }
 }

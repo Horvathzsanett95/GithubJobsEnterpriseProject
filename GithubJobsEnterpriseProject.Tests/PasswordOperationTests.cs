@@ -15,7 +15,7 @@ namespace GithubJobsEnterpriseProject.Tests
         }
 
         [Test]
-        public void DecríptPasswordFromHashReturnsTrueTest()
+        public void DecryptPasswordFromHashReturnsTrueTest()
         {
             string password = "123";
             string hashedPwd = PasswordOperations.HashUserGivenPassword(password);
