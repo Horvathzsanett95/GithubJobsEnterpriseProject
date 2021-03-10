@@ -1,27 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import {MarkedProvider} from './MarkedContext';
-import logo from './logo.png';
-import githubLogo from './github-logo.png';
-import './App.css';
-import Home from './components/Home';
-import Marked from './components/Marked';
-import Statistics from './components/Statistics';
-import SearchResults from './components/SearchResults';
-import Detail from './components/Detail';
-import Register from './components/Register';
-import Login from './components/Login';
-import HireForm from './components/HireForm';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { MarkedProvider } from "./MarkedContext";
+import logo from "./logo.png";
+import githubLogo from "./github-logo.png";
+import "./App.css";
+import Home from "./components/Home";
+import Marked from "./components/Marked";
+import Statistics from "./components/Statistics";
+import SearchResults from "./components/SearchResults";
+import Detail from "./components/Detail";
+import Register from "./components/Register";
+import Login from "./components/Login";
+import HireForm from "./components/HireForm";
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function App() {
-
     const [jobs, setJobs] = useState([]);
     const [username, setUsername] = useState([]);
     const [isLoggedIn, setIsLoggedIn] = useState([false]);
@@ -29,8 +23,8 @@ function App() {
     let markedJobs = [];
 
     function handleChange(markedJob) {
-        markedJobs.push(markedJob)
-        console.log(markedJobs)
+        markedJobs.push(markedJob);
+        console.log(markedJobs);
     }
 
     const SeparatedButtonStyle = {
@@ -46,8 +40,8 @@ function App() {
         margin: "5px",
         padding: "3px",
         backgroundColor: "#fc0303",
-        borderRadius: "15px"
-    }
+        borderRadius: "15px",
+    };
 
     const NavElementStyle = {
         fontSize: 20,
@@ -55,41 +49,37 @@ function App() {
         margin: "5px",
         padding: "3px",
         borderRadius: "15px",
-        textDecoration: 'none',
+        textDecoration: "none",
         backgroundColor: "#78c3ff",
         width: "180px",
-        hight: "40px"
-    }
+        hight: "40px",
+    };
 
     useEffect(() => {
         getJobs();
         getUser();
     }, []);
 
-
     const getJobs = () => {
-        axios.get('/api').then(data => setJobs(data.data))
-    }
+        axios.get("/api").then((data) => setJobs(data.data));
+    };
 
     const getUser = () => {
-        axios.get('/getCookieData').then(data => setUsername(data.data));
+        axios.get("/getCookieData").then((data) => setUsername(data.data));
         if (username) {
             setIsLoggedIn(true);
         }
-    }
+    };
 
     const setlogout = () => {
         setIsLoggedIn(false);
-    }
+    };
 
     return (
         <MarkedProvider>
-            
             <div className="App">
                 <header className="App-header">
-                    {isLoggedIn === true &&
-                        <p> User: {username} </p>
-                    }
+                    {isLoggedIn === true && <p> User: {username} </p>}
                     <img src={logo} className="App-logo" alt="logo" />
                 </header>
 
@@ -97,63 +87,82 @@ function App() {
                     <div className="cardsDiv">
                         <nav>
                             <ul>
-                                {isLoggedIn === true &&
-                                <li style={SeparatedButtonStyle}>
-                                    <Link to="/hire-form">Hire with us!</Link>
+                                {isLoggedIn === true && (
+                                    <li style={SeparatedButtonStyle}>
+                                        <Link to="/hire-form">Hire with us!</Link>
                                     </li>
-                                }
+                                )}
                                 <li style={NavElementStyle}>
                                     <img src={githubLogo} className="Git-logo" alt="logo" />
-                                    <Link to="/" style={{ color: 'black' }}>Home</Link>
+                                    <Link to="/" style={{ color: "black" }}>
+                                        Home
+                  </Link>
                                     <img src={githubLogo} className="Git-logo" alt="logo" />
                                 </li>
                                 <li style={NavElementStyle}>
                                     <img src={githubLogo} className="Git-logo" alt="logo" />
-                                    <Link to="/marked" style={{ color: 'black' }}>Marked jobs</Link>
+                                    <Link to="/marked" style={{ color: "black" }}>
+                                        Marked jobs
+                  </Link>
                                     <img src={githubLogo} className="Git-logo" alt="logo" />
                                 </li>
                                 <li style={NavElementStyle}>
                                     <img src={githubLogo} className="Git-logo" alt="logo" />
-                                    <Link to="/search" style={{ color: 'black' }}>Search</Link>
+                                    <Link to="/search" style={{ color: "black" }}>
+                                        Search
+                  </Link>
                                     <img src={githubLogo} className="Git-logo" alt="logo" />
                                 </li>
                                 <li style={NavElementStyle}>
                                     <img src={githubLogo} className="Git-logo" alt="logo" />
-                                    <Link to="/registration" style={{ color: 'black' }}>Register</Link>
+                                    <Link to="/registration" style={{ color: "black" }}>
+                                        Register
+                  </Link>
                                     <img src={githubLogo} className="Git-logo" alt="logo" />
                                 </li>
                                 <li style={NavElementStyle}>
                                     <img src={githubLogo} className="Git-logo" alt="logo" />
-                                    <Link to="/login" style={{ color: 'black' }}>Login</Link>
+                                    <Link to="/login" style={{ color: "black" }}>
+                                        Login
+                  </Link>
                                     <img src={githubLogo} className="Git-logo" alt="logo" />
                                 </li>
                                 <li style={NavElementStyle}>
                                     <img src={githubLogo} className="Git-logo" alt="logo" />
-                                    <Link to="/statistics" style={{ color: 'black' }}>Statistics</Link>
+                                    <Link to="/statistics" style={{ color: "black" }}>
+                                        Statistics
+                  </Link>
                                     <img src={githubLogo} className="Git-logo" alt="logo" />
                                 </li>
-                                {isLoggedIn === false &&
+                                {isLoggedIn === false && (
                                     <li style={NavElementStyle}>
                                         <img src={githubLogo} className="Git-logo" alt="logo" />
-                                        <Link to="/login" style={{ color: 'black' }}>Login</Link>
+                                        <Link to="/login" style={{ color: "black" }}>
+                                            Login
+                    </Link>
                                         <img src={githubLogo} className="Git-logo" alt="logo" />
                                     </li>
-                                }
-                                {isLoggedIn === true &&
+                                )}
+                                {isLoggedIn === true && (
                                     <li style={NavElementStyle}>
-                                    <form action="/logout">
-                                        <img src={githubLogo} className="Git-logo" alt="logo" />
-                                        <button type="submit" onClick={setlogout} className="buttonLogout">Logout</button>
-                                        <img src={githubLogo} className="Git-logo" alt="logo" />
+                                        <form action="/logout">
+                                            <img src={githubLogo} className="Git-logo" alt="logo" />
+                                            <button
+                                                type="submit"
+                                                onClick={setlogout}
+                                                className="buttonLogout"
+                                            >
+                                                Logout
+                      </button>
+                                            <img src={githubLogo} className="Git-logo" alt="logo" />
                                         </form>
                                     </li>
-                                }
-
+                                )}
                             </ul>
                         </nav>
 
                         {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
+                        renders the first one that matches the current URL. */}
                         <Switch>
                             <Route path="/hire-form">
                                 <HireForm />
@@ -170,7 +179,7 @@ function App() {
                             <Route path="/detail">
                                 <Detail />
                             </Route>
-                            <Route path='/registration'>
+                            <Route path="/registration">
                                 <Register />
                             </Route>
                             <Route path="/statistics">
