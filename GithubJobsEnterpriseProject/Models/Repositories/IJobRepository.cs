@@ -9,5 +9,6 @@ namespace GithubJobsEnterpriseProject.Models.Repositories
     {
         void BindJobsWithRatings(IEnumerable<Rating> ratings);
         IEnumerable<GithubJob> GetJobByParameters(string descriptionParameter, string locationParameter);
+        int GetJobByTechnology(string technology);
     }
 }

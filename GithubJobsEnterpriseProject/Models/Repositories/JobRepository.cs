@@ -40,5 +40,10 @@ namespace GithubJobsEnterpriseProject.Models.Repositories
             }
             return final;
         }
+
+        public int GetJobByTechnology(string technology)
+        {
+            return GithubJobsContext.JobItems.Where(x => x.Description.Contains(technology)).Count();
+        }
     }
 }
