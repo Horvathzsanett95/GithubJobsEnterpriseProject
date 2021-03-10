@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GithubJobsEnterpriseProject.Migrations
 {
-    [DbContext(typeof(JobContext))]
+    [DbContext(typeof(GithubJobsContext))]
     partial class JobContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

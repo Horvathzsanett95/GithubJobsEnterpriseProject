@@ -7,7 +7,6 @@ namespace GithubJobsEnterpriseProject.Services
     {
         public Appsettings GetLink();
         public IEnumerable<GithubJob> GetGithubJobsFromUrl();
-        public IEnumerable<GithubJob> GetGithubJobsByParameters(string descriptionParameter, string locationParameter);
 
     }
 }

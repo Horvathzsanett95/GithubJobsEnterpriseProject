@@ -1,5 +1,6 @@
 ﻿using GithubJobsEnterpriseProject.Models;
 using GithubJobsEnterpriseProject.Services;
+using GithubJobsEnterpriseProject.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using NSubstitute;
@@ -17,13 +18,13 @@ namespace GithubJobsEnterpriseProject.Tests
             return config;
         }
 
-        public static JobContext InitContext()
+        public static GithubJobsContext InitContext()
         {
             
-            var options = new DbContextOptionsBuilder<JobContext>()
+            var options = new DbContextOptionsBuilder<GithubJobsContext>()
             .UseInMemoryDatabase(databaseName: "JobDatabase")
             .Options;
-            var context = new JobContext(options);
+            var context = new GithubJobsContext(options);
             return context;
         }
 
@@ -36,7 +37,7 @@ namespace GithubJobsEnterpriseProject.Tests
             User user = new User("username", "password", "email@gmail.com");
             context.Add(user);
             context.SaveChanges();
-            var substitude = Substitute.For<IPasswordHandlerService>();
+            var substitude = Substitute.For<PasswordOperations>();
             substitude.PasswordValidator(Arg.Any<string>(), Arg.Any<string>()).Returns(true);
             LoginService service = new LoginService(context, substitude);
             bool result = service.Login("username", "password");
