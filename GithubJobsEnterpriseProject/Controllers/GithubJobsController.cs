@@ -40,7 +40,7 @@ namespace GithubJobsEnterpriseProject.Controllers
 
         // GET: api/GithubJobs/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<GithubJob>> GetGithubJob(string id)
+        public ActionResult<GithubJob> GetGithubJob(string id)
         {
             var githubJob = _unit.Jobs.Get(id);
 
@@ -72,7 +72,7 @@ namespace GithubJobsEnterpriseProject.Controllers
         }
 
         [HttpPost("/hire-form")]
-        public ActionResult SaveFormToDb()
+        public ActionResult SaveNewJobFromForm()
         {
             GithubJob job = new GithubJob();
             job.Id = IdGenerator.IdStringGenerator();

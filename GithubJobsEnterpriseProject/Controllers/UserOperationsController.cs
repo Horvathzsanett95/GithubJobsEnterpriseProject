@@ -24,8 +24,10 @@ namespace GithubJobsEnterpriseProject.Controllers
             _emailService = emailService;
             _loginService = loginService;
         }
+
+
         [HttpPost("/registration")]
-        public ActionResult GetCredentials()
+        public ActionResult RegisterNewUser()
         {
             var username = Request.Form["Username"];
             var email = Request.Form["Email"];

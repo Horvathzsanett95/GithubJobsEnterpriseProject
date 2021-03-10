@@ -9,7 +9,12 @@ namespace GithubJobsEnterpriseProject.Controllers
 {
     interface IGitHubJobsController 
     {
-        public IEnumerable<GithubJob> GetJobItems();
-        public Task<ActionResult<GithubJob>> GetGithubJob(string id);
+        IEnumerable<GithubJob> GetJobItems();
+        ActionResult<GithubJob> GetGithubJob(string id);
+        IEnumerable<GithubJob> GetGithubJobByDescriptionAndPlace([FromRoute] string description,
+                                                                 [FromRoute] string location);
+        ActionResult AddRatingToDatabase(Rating rating);
+        ActionResult SaveNewJobFromForm();
+
     }
 }
