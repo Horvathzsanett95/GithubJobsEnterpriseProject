@@ -39,3 +39,13 @@ ul {
     line-height: 25px;
 }
 
+.buttonLogout {
+    --btn-color: #275efe;
+    position: relative;
+    color: black;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+

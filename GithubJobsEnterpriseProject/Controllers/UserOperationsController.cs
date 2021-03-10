@@ -1,10 +1,9 @@
 ﻿using GithubJobsEnterpriseProject.Models;
 using GithubJobsEnterpriseProject.Services;
 using GithubJobsEnterpriseProject.Utilities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GithubJobsEnterpriseProject.Controllers
@@ -16,46 +15,76 @@ namespace GithubJobsEnterpriseProject.Controllers
         private readonly IUnitOfWork _unit;
         private readonly IEmailSenderService _emailService;
         private readonly ILoginService _loginService;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
         public UserOperationsController (IUnitOfWork unit,
             IEmailSenderService emailService,
-            ILoginService loginService)
+            ILoginService loginService,
+            UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager)
         {
             _unit = unit;
             _emailService = emailService;
             _loginService = loginService;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
 
         [HttpPost("/registration")]
-        public ActionResult RegisterNewUser()
+        public async Task<ActionResult> RegisterNewUser()
         {
             var username = Request.Form["Username"];
             var email = Request.Form["Email"];
             var password = Request.Form["Password"];
             var hashedPassword = PasswordOperations.HashUserGivenPassword(password);
-            User user = new User(username, email, hashedPassword);
-            _unit.Users.Add(user);
-            _unit.Complete();
-            _emailService.SendEmail(email);
-
-            return Redirect("/");
+            var user = new IdentityUser { UserName = username, Email = email };
+            var result = await _userManager.CreateAsync(user, password);
+            if (result.Succeeded)
+            {
+                _emailService.SendEmail(email);
+                await _signInManager.SignInAsync(user, isPersistent: true);
+                return Redirect("/");
+            }
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("Error: ", error.Description);
+            }
+            return NoContent();
         }
 
 
         [HttpPost("/login")]
-        public ActionResult GetLoginCredentials()
+        public async Task<ActionResult> GetLoginCredentials()
         {
-
             var username = Request.Form["Username"];
             var password = Request.Form["Password"];
-            bool isLogged = _loginService.Login(username, password);
-            if(isLogged)
+            var result = await _signInManager.PasswordSignInAsync(username, password, isPersistent: true, false) ;
+            if(result.Succeeded)
             {
+                var user = new IdentityUser { UserName = username};
+                await _signInManager.SignInAsync(user, isPersistent: true);
                 return Redirect("/");
-
             }
+                
+            
             return NoContent(); 
+        }
 
+        [HttpGet("/getCookieData")]
+        public string GetCookieData()
+        {
+            var user = HttpContext.User;
+            Console.WriteLine(user.Identity.Name);
+            return user.Identity.Name;
+        }
+
+
+        [HttpGet("/logout")]
+        public RedirectResult Logout()
+        {
+            _signInManager.SignOutAsync();
+            return Redirect("/");
         }
     }
 }
