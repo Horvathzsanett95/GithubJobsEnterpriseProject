@@ -89,6 +89,12 @@ namespace GithubJobsEnterpriseProject.Controllers
 
         }
 
+        [HttpGet("/statistics/keyword={technology}")]
+        public int GetJobByTechnology(string technology)
+        {
+            return _unit.Jobs.GetJobByTechnology(technology);
+        }
+
 
     }
 
