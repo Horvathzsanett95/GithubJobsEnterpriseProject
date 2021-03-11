@@ -17,7 +17,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function App() {
     const [jobs, setJobs] = useState([]);
-    const [username, setUsername] = useState([]);
+    const [username, setUsername] = useState("");
     const [isLoggedIn, setIsLoggedIn] = useState([false]);
 
     let markedJobs = [];
@@ -65,10 +65,12 @@ function App() {
     };
 
     const getUser = () => {
-        axios.get("/getCookieData").then((data) => setUsername(data.data));
-        if (username) {
-            setIsLoggedIn(true);
-        }
+        axios.get('/getCookieData').then(data => {
+            if ((data.data).length != 0) {
+                setIsLoggedIn(true)
+                setUsername(data.data)
+            }
+        });
     };
 
     const setlogout = () => {

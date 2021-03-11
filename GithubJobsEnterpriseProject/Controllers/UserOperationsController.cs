@@ -1,8 +1,10 @@
 ﻿using GithubJobsEnterpriseProject.Models;
 using GithubJobsEnterpriseProject.Services;
 using GithubJobsEnterpriseProject.Utilities;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.HttpSys;
 using System;
 using System.Threading.Tasks;
 
@@ -43,7 +45,7 @@ namespace GithubJobsEnterpriseProject.Controllers
             if (result.Succeeded)
             {
                 _emailService.SendEmail(email);
-                await _signInManager.SignInAsync(user, isPersistent: true);
+                await _signInManager.SignInAsync(user, false);
                 return Redirect("/");
             }
             foreach (var error in result.Errors)
@@ -59,7 +61,7 @@ namespace GithubJobsEnterpriseProject.Controllers
         {
             var username = Request.Form["Username"];
             var password = Request.Form["Password"];
-            var result = await _signInManager.PasswordSignInAsync(username, password, isPersistent: true, false) ;
+            var result = await _signInManager.PasswordSignInAsync(username, password, false, false) ;
             if(result.Succeeded)
             {
                 var user = new IdentityUser { UserName = username};
@@ -81,9 +83,10 @@ namespace GithubJobsEnterpriseProject.Controllers
 
 
         [HttpGet("/logout")]
-        public RedirectResult Logout()
+        public async Task<RedirectResult> Logout()
         {
-            _signInManager.SignOutAsync();
+            await HttpContext.SignOutAsync();
+            HttpContext.Response.Cookies.Delete(".AspNetCore.Identity.Application");
             return Redirect("/");
         }
     }
